@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2POINT DEPLOY</title>
+    <link rel="icon" type="image/x-icon" href="Cathy.ico">
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+
+    <!-- ----------------------------------------Edit inside this-------------------------------------------- -->
+
+    <img id="artImage" alt="Art Image">
+    <h2 id="senseiName"></h2>
+    <input type="hidden" id="voiceId" value="F0yTXVI2WXEIiShs00dR">
+    <p class="subtext">Lesson: The Anatomy of Trees</p>
+    <div style="display: none;" id="logContainer"></div>
+    <div style="max-width: 1200px;">
+        <p class="bodytext">
+OINK            <br><br>
+OINK OINK OINK            <br><br>
+OINK OINK OINK OINK          </p>
+
+    </div>
+    <!-- ----------------------------------------Edit before this---------------------------------------------- -->
+
+
+    <!-- Chatbot initialization -------------------------------- DO NOT EDIT ------------------------------- -->
+    <script type="module">
+
+        // Change the name of the sensei
+        //////////////////////////////////////////
+
+
+        const name = "Alex";
+
+
+        //////////////////////////////////////////
+        
+        // Update image and text dynamically
+        document.getElementById("artImage").src = `${name}.jpg`;
+        document.getElementById("senseiName").textContent = `${name}`;
+
+        // Initialize the chatbot
+        import Chatbot from "./js/web.js";
+        Chatbot.init({
+            chatflowid: "fe66d963-44fc-4647-a8ec-7d29fbdd1fdf",
+            apiHost: "https://chat.artsensei.ai",
+            theme: {
+                chatWindow: {
+                    showTitle: true,
+                    title: `${name}`,
+                    titleAvatarSrc: `${name}.jpg`,
+                    showAgentMessages: false,
+                    welcomeMessage: `Hi there! Are you ready to work on drawings of trees?`,
+                    errorMessage: 'Error: Please contact teacher',
+                    backgroundColor: "#212121",
+                    height: 700,
+                    width: '100%', /* Ensures full use of available width on mobile */
+                    fontSize: 16,
+                    poweredByTextColor: "#b3b3b3",
+                    botMessage: {
+                        backgroundColor: "#212121",
+                        textColor: "#b3b3b3",
+                        showAvatar: true,
+                        avatarSrc: `${name}.jpg`,
+                        maxWidth: '100%', /* Set the bot message to take full width of the chat window */
+                        marginRight: '60px', /* Keep some space from the right side of the screen */
+                    },
+                    userMessage: {
+                        backgroundColor: "#333333",
+                        textColor: "#ffffff",
+                        showAvatar: false,
+                        avatarSrc: "https://raw.githubusercontent.com/zahidkhawaja/langchain-chat-nextjs/main/public/usericon.png",
+                    },
+                    textInput: {
+                        placeholder: 'Type your question',
+                        backgroundColor: '#212121',
+                        textColor: '#b3b3b3',
+                        sendButtonColor: '#3B81F6',
+                        maxChars: 300,
+                        maxCharsWarningMessage: 'You exceeded the characters limit. Please input less than 300 characters.',
+                        autoFocus: true,
+                        width: '100%', /* Keep text input box fixed within screen width */
+                        boxSizing: 'border-box', /* Ensure proper sizing within its container */
+                    },
+                    feedback: {
+                        color: '#b3b3b3',
+                    },
+                    footer: {
+                        textColor: '#b3b3b3',
+                        text: 'Powered by',
+                        company: 'Artsensei',
+                        companyLink: 'https://artsensei.ai',
+                    }
+                }
+            }
+        });
+    </script>
+    <!-- Chatbot End ------------------------------------------------------------ DO NOT EDIT -->
+    <script src="./js/log-errors.js"></script>
+    <script src="./js/override-chatbot-styles.js"></script>
+    <script src="./js/tts-service.js"></script>
+</body>
+</html>
