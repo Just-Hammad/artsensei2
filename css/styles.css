@@ -1,0 +1,65 @@
+ /* Basic CSS to center the text horizontally and add padding to the top */
+ body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Poppins', sans-serif; /* Sans-serif for the title */
+}
+
+img {
+    margin-top: 50px; /* Add space between the top and the image */
+    max-width: 80%; /* Responsive size for the image */
+    height: auto;
+}
+
+h2 {
+    margin-top: 20px; /* Add space between the image and Bot Name text */
+    margin-bottom: 10px; /* Add some white space between Bot Name and the smaller text */
+    font-size: 3rem; /* Large font size */
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Styling for the slightly darker grey text */
+.subtext {
+    margin-top: 0; /* Remove margin between lines */
+    font-size: 1.3rem; /* Slightly smaller font */
+    color: #000000; /* Mid-grey color between the previous shades */
+    font-weight: normal;
+    text-align: center;
+}
+
+#logContainer {
+    max-height: 300px;
+    min-height: 100px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 20px;
+    font-family: monospace;
+    background-color: #f9f9f9;
+    white-space: pre-wrap;
+}
+
+/* Styling for the slightly darker grey text */
+.bodytext {
+    margin: 0 52px 20px 52px; /* Remove margin between lines */
+    font-size: 1.1rem; /* Slightly smaller font */
+    line-height: 1.3em;
+    color: #4a4a4a; /* Mid-grey color between the previous shades */
+    font-weight: normal;
+    text-align: left;
+    font-family: 'Lora', serif; /* Serif font for the body text */
+    max-width: 700px;
+}
+
+.log { color: black; }
+.warn { color: orange; }
+.error { color: red; }
+
+/* Styling the chatbot container */
+flowise-chatbot {
+    margin-top: 20px; /* Space between the text and the chatbot */
+}
