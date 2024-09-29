@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ArtSensei</title>
     <link rel="icon" type="image/x-icon" href="Cathy.ico">
-    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
 
@@ -18,11 +18,7 @@
     <div style="display: none;" id="logContainer"></div>
     <div style="max-width: 1200px;">
         <p class="bodytext">
-            You and I work together in Art:110 to learn principles of drawing. I stay up to date on the class goals and help you stay focused on achieving them.
-            <br><br>
-            Ready? Press the chat button to get started. At the top of our chat window is a speaker icon. Press it to hear me talk. Press the mic button below to speak to me.
-            <br><br>
-            Since I'm in beta, I occasionally hallucinate. LOL
+22222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
           </p>
 
     </div>
@@ -42,19 +38,19 @@
         //////////////////////////////////////////
         
         // Update image and text dynamically
-        document.getElementById("artImage").src = `${name}.jpg`;
+        document.getElementById("artImage").src = `../avatar/${name}.jpg`;
         document.getElementById("senseiName").textContent = `${name}`;
 
         // Initialize the chatbot
-        import Chatbot from "./js/web.js";
+        import Chatbot from "../js/web.js";
         Chatbot.init({
-            chatflowid: "fe66d963-44fc-4647-a8ec-7d29fbdd1fdf",
+            chatflowid: "6af20f23-7ada-4495-9d91-d7f5effc7616",
             apiHost: "https://chat.artsensei.ai",
             theme: {
                 chatWindow: {
                     showTitle: true,
                     title: `${name}`,
-                    titleAvatarSrc: `${name}.jpg`,
+                    titleAvatarSrc: `../avatar/${name}.jpg`,
                     showAgentMessages: false,
                     welcomeMessage: `Hi there! Are you ready to work on drawings of trees?`,
                     errorMessage: 'Error: Please contact teacher',
@@ -67,7 +63,7 @@
                         backgroundColor: "#212121",
                         textColor: "#b3b3b3",
                         showAvatar: true,
-                        avatarSrc: `${name}.jpg`,
+                        avatarSrc: `../avatar/${name}.jpg`,
                         maxWidth: '100%', /* Set the bot message to take full width of the chat window */
                         marginRight: '60px', /* Keep some space from the right side of the screen */
                     },

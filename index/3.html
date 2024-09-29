@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3POINT Deploy</title>
+    <title>ArtSensei</title>
     <link rel="icon" type="image/x-icon" href="Cathy.ico">
-    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
-
 <body>
 
     <!-- ----------------------------------------Edit inside this-------------------------------------------- -->
@@ -20,9 +18,8 @@
     <div style="display: none;" id="logContainer"></div>
     <div style="max-width: 1200px;">
         <p class="bodytext">
-            dabababababa <br><br>
-            dodododododod <br><br>
-            didididididid </p>
+3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333
+          </p>
 
     </div>
     <!-- ----------------------------------------Edit before this---------------------------------------------- -->
@@ -39,21 +36,21 @@
 
 
         //////////////////////////////////////////
-
+        
         // Update image and text dynamically
-        document.getElementById("artImage").src = `${name}.jpg`;
+        document.getElementById("artImage").src = `../avatar/${name}.jpg`;
         document.getElementById("senseiName").textContent = `${name}`;
 
         // Initialize the chatbot
-        import Chatbot from "./js/web.js";
+        import Chatbot from "../js/web.js";
         Chatbot.init({
-            chatflowid: "c4d23303-e180-4eb0-93e2-97a30b9d89ac",
+            chatflowid: "62ee3b5c-de06-4b67-a4fa-5cd19e53be96",
             apiHost: "https://chat.artsensei.ai",
             theme: {
                 chatWindow: {
                     showTitle: true,
                     title: `${name}`,
-                    titleAvatarSrc: `${name}.jpg`,
+                    titleAvatarSrc: `../avatar/${name}.jpg`,
                     showAgentMessages: false,
                     welcomeMessage: `Hi there! Are you ready to work on drawings of trees?`,
                     errorMessage: 'Error: Please contact teacher',
@@ -66,7 +63,7 @@
                         backgroundColor: "#212121",
                         textColor: "#b3b3b3",
                         showAvatar: true,
-                        avatarSrc: `${name}.jpg`,
+                        avatarSrc: `../avatar/${name}.jpg`,
                         maxWidth: '100%', /* Set the bot message to take full width of the chat window */
                         marginRight: '60px', /* Keep some space from the right side of the screen */
                     },
@@ -105,5 +102,4 @@
     <script src="./js/override-chatbot-styles.js"></script>
     <script src="./js/tts-service.js"></script>
 </body>
-
 </html>
