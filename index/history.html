@@ -5,44 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>History Deploy</title>
     <link rel="icon" type="image/x-icon" href="Cathy.ico">
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="preload" href="../css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../css/styles.css"></noscript>
 </head>
 <body>
 
     <!-- ----------------------------------------Edit inside this-------------------------------------------- -->
 
-    <img id="artImage" alt="Art Image">
+    <img id="artImage" alt="Art Image" width="600" height="400">
     <h2 id="senseiName"></h2>
     <input type="hidden" id="voiceId" value="F0yTXVI2WXEIiShs00dR">
     <p class="subtext">Lesson: The Anatomy of Trees</p>
     <div style="display: none;" id="logContainer"></div>
     <div style="max-width: 1200px;">
         <p class="bodytext">
-history            <br><br>
-history            <br><br>
-History          </p>
-
+            history            <br><br>
+            history            <br><br>
+            History          
+        </p>
     </div>
     <!-- ----------------------------------------Edit before this---------------------------------------------- -->
 
-
     <!-- Chatbot initialization -------------------------------- DO NOT EDIT ------------------------------- -->
     <script type="module">
-
-        // Change the name of the sensei
-        //////////////////////////////////////////
-
-
         const name = "Alex";
-
-
-        //////////////////////////////////////////
-        
-        // Update image and text dynamically
         document.getElementById("artImage").src = `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`;
         document.getElementById("senseiName").textContent = `${name}`;
-
-        // Initialize the chatbot
+        
         import Chatbot from "https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@df3db864251d6da77c8943156cf08ef03ec4b165/js/web.js";
         Chatbot.init({
             chatflowid: "9a7ec4f8-e641-47ca-8437-2665d90812f9",
@@ -99,8 +88,8 @@ History          </p>
         });
     </script>
     <!-- Chatbot End ------------------------------------------------------------ DO NOT EDIT -->
-    <script src="../js/log-errors.js"></script>
-    <script src="../js/override-chatbot-styles.js"></script>
-    <script src="../js/tts-service.js"></script>
+    <script src="../js/log-errors.js" defer></script>
+    <script src="../js/override-chatbot-styles.js" defer></script>
+    <script src="../js/tts-service.js" defer></script>
 </body>
 </html>
