@@ -7,6 +7,16 @@
     <link rel="icon" type="image/x-icon" href="Cathy.ico">
     <link rel="preload" href="../css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="../css/styles.css"></noscript>
+    <style>
+        /* Added CSS to set a min-height for text area and define the layout */
+        .max-width {
+            max-width: 1200px;
+            margin: 0 auto; /* Centers the container */
+        }
+        .bodytext {
+            min-height: 80px; /* Adjust based on expected content */
+        }
+    </style>
 </head>
 <body>
 
@@ -17,13 +27,16 @@
     <input type="hidden" id="voiceId" value="F0yTXVI2WXEIiShs00dR">
     <p class="subtext">Lesson: The Anatomy of Trees</p>
     <div style="display: none;" id="logContainer"></div>
-    <div style="max-width: 1200px;">
+    
+    <!-- Use CSS class instead of inline style for better maintainability -->
+    <div class="max-width">
         <p class="bodytext">
             history            <br><br>
             history            <br><br>
             History          
         </p>
     </div>
+    
     <!-- ----------------------------------------Edit before this---------------------------------------------- -->
 
     <!-- Chatbot initialization -------------------------------- DO NOT EDIT ------------------------------- -->
