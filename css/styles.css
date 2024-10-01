@@ -1,66 +1,71 @@
- /* Basic CSS to center the text horizontally and add padding to the top */
- body {
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: 'Poppins', sans-serif; /* Sans-serif for the title */
-}
+        /* Basic CSS to center the text horizontally and add padding to the top */ 
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Poppins', sans-serif; /* Sans-serif for the title */
+        }
 
-img {
-    max-width: 80%; /* Responsive size for the image */
-    height: auto;
-    border-radius: 10px; /* Rounded corners for the image */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-}
+        img {
+            max-width: 80%; /* Responsive size for the image */
+            height: auto; /* Keep aspect ratio */
+            border-radius: 10px; /* Rounded corners for the image */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+        }
 
-h2 {
-    margin-top: 20px; /* Add space between the image and Bot Name text */
-    margin-bottom: 10px; /* Add some white space between Bot Name and the smaller text */
-    font-size: 3rem; /* Large font size */
-    font-weight: bold;
-    text-align: center;
-}
+        h2 {
+            margin-top: 20px; /* Space between the image and the title */
+            margin-bottom: 10px; /* Space between title and subtext */
+            font-size: 3rem; /* Large font size */
+            font-weight: bold;
+            text-align: center;
+        }
 
-/* Styling for the slightly darker grey text */
-.subtext {
-    margin-top: 0; /* Remove margin between lines */
-    font-size: 1.3rem; /* Slightly smaller font */
-    color: #000000; /* Mid-grey color between the previous shades */
-    font-weight: normal;
-    text-align: center;
-}
+        .subtext {
+            margin-top: 0; /* Remove margin between lines */
+            font-size: 1.3rem; /* Slightly smaller font */
+            color: #000; /* Mid-grey color */
+            font-weight: normal;
+            text-align: center;
+        }
 
-#logContainer {
-    max-height: 300px;
-    min-height: 100px;
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-top: 20px;
-    font-family: monospace;
-    background-color: #f9f9f9;
-    white-space: pre-wrap;
-}
+        #logContainer {
+            max-height: 300px;
+            min-height: 100px; /* Ensure a minimum height */
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 20px;
+            font-family: monospace;
+            background-color: #f9f9f9;
+            white-space: pre-wrap;
+        }
 
-/* Styling for the slightly darker grey text */
-.bodytext {
-    margin: 0 52px 20px 52px; /* Remove margin between lines */
-    font-size: 1.1rem; /* Slightly smaller font */
-    line-height: 1.3em;
-    color: #4a4a4a; /* Mid-grey color between the previous shades */
-    font-weight: normal;
-    text-align: left;
-    font-family: 'Lora', serif; /* Serif font for the body text */
-    max-width: 700px;
-}
+        .bodytext {
+            margin: 0 52px 20px 52px; /* Margin around the body text */
+            font-size: 1.1rem; /* Font size */
+            line-height: 1.3em;
+            color: #4a4a4a; /* Mid-grey color */
+            font-weight: normal;
+            text-align: left;
+            font-family: 'Lora', serif; /* Serif font for the body text */
+            max-width: 700px;
+            min-height: 80px; /* Adjust based on expected content */
+        }
 
-.log { color: black; }
-.warn { color: orange; }
-.error { color: red; }
+        .log { color: black; }
+        .warn { color: orange; }
+        .error { color: red; }
 
-/* Styling the chatbot container */
-flowise-chatbot {
-    margin-top: 20px; /* Space between the text and the chatbot */
-}
+        /* Styling the chatbot container */
+        flowise-chatbot {
+            margin-top: 20px; /* Space between the text and the chatbot */
+        }
+
+        /* Centering and maintaining layout */
+        .max-width {
+            max-width: 1200px;
+            margin: 0 auto; /* Centers the container */
+        }
