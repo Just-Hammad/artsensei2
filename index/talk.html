@@ -5,11 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ArtSensei</title>
     <link rel="icon" type="image/x-icon" href="../Cathy.ico">
-    
-    <!-- Preloading CSS with onload and noscript fallback -->
     <link rel="preload" href="../css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="../css/styles.css"></noscript>
-    
     <style>
         /* Basic CSS to center the text horizontally and add padding to the top */ 
         body {
@@ -39,7 +36,7 @@
         .subtext {
             margin-top: 0; /* Remove margin between lines */
             font-size: 1.3rem; /* Slightly smaller font */
-            color: #000; /* Black color */
+            color: #000; /* Mid-grey color */
             font-weight: normal;
             text-align: center;
         }
@@ -85,28 +82,21 @@
 </head>
 <body>
 
-    <!-- Added width and height to reserve space for the image -->
-    <img id="artImage" src="" alt="Art Image" width="600" height="400">
-    
+    <img id="artImage" alt="Art Image" width="600" height="400">
     <h2 id="senseiName"></h2>
     <input type="hidden" id="voiceId" value="F0yTXVI2WXEIiShs00dR">
-    
     <p class="subtext">Lesson: The Anatomy of Trees</p>
-    
     <div style="display: none;" id="logContainer"></div>
-    
-    <div class="max-width">
+    <div style="max-width: 1200px;">
         <p class="bodytext">
             You and I work together in Art:110 to learn principles of drawing. I stay up to date on the class goals and help you stay focused on achieving them.
             <br><br>
             Ready? Press the chat button to get started. At the top of our chat window is a speaker icon. Press it to hear me talk. Press the mic button below to speak to me.
             <br><br>
             Since I'm in beta, I occasionally hallucinate. LOL
-        </p>
-    </div>
+          </p>
 
-    <!-- Reserved space for the chatbot with fixed height to prevent layout shifts -->
-    <div id="chatbot-container" style="height: 700px; width: 100%;"></div>
+    </div>
 
     <script type="module">
         const name = "Alex";
@@ -169,7 +159,6 @@
         });
     </script>
     
-    <!-- Additional Scripts -->
     <script src="../js/log-errors.js" defer></script>
     <script src="../js/override-chatbot-styles.js" defer></script>
     <script src="../js/tts-service.js" defer></script>
