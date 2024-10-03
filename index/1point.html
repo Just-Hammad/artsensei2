@@ -3,47 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1POINT DEPLOY</title>
-    <link rel="icon" type="image/x-icon" href="Cathy.ico">
-    <link rel="stylesheet" href="../css/styles.css">
+    <title>ArtSensei</title>
+    <link rel="icon" type="image/x-icon" href="../Cathy.ico">
+    <link rel="preload" href="../css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../css/styles.css"></noscript>
+    <style>
+        /* Basic CSS to center the text horizontally and add padding to the top */ 
+        body {
+            margin-top: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Poppins', sans-serif; /* Sans-serif for the title */
+        }
+
+        img {
+            max-width: 80%; /* Responsive size for the image */
+            height: auto; /* Keep aspect ratio */
+            border-radius: 10px; /* Rounded corners for the image */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+        }
+
+        h2 {
+            margin-top: 20px; /* Space between the image and the title */
+            margin-bottom: 10px; /* Space between title and subtext */
+            font-size: 3rem; /* Large font size */
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .subtext {
+            margin-top: 0; /* Remove margin between lines */
+            font-size: 1.3rem; /* Slightly smaller font */
+            color: #000; /* Mid-grey color */
+            font-weight: normal;
+            text-align: center;
+        }
+
+        #logContainer {
+            max-height: 300px;
+            min-height: 100px; /* Ensure a minimum height */
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 20px;
+            font-family: monospace;
+            background-color: #f9f9f9;
+            white-space: pre-wrap;
+        }
+
+        .bodytext {
+            margin: 0 52px 20px 52px; /* Margin around the body text */
+            font-size: 1.1rem; /* Font size */
+            line-height: 1.3em;
+            color: #4a4a4a; /* Mid-grey color */
+            font-weight: normal;
+            text-align: left;
+            font-family: 'Lora', serif; /* Serif font for the body text */
+            max-width: 900px;
+            min-height: 100px; /* Adjust based on expected content */
+        }
+
+        .log { color: black; }
+        .warn { color: orange; }
+        .error { color: red; }
+
+        /* Styling the chatbot container */
+        flowise-chatbot {
+            margin-top: 20px; /* Space between the text and the chatbot */
+        }
+
+        /* Centering and maintaining layout */
+        .max-width {
+            max-width: 1200px;
+            margin: 0 auto; /* Centers the container */
+        }
+    </style>
 </head>
 <body>
 
-    <!-- ----------------------------------------Edit inside this-------------------------------------------- -->
-
-    <img id="artImage" alt="Art Image">
+    <img id="artImage" alt="Art Image" width="320" height="370">
     <h2 id="senseiName"></h2>
     <input type="hidden" id="voiceId" value="F0yTXVI2WXEIiShs00dR">
     <p class="subtext">Lesson: The Anatomy of Trees</p>
     <div style="display: none;" id="logContainer"></div>
-    <div style="max-width: 1200px;">
+    <div class="max-width">
         <p class="bodytext">
-What are points            <br><br>
-why are points            <br><br>
-where are points          </p>
-
+            What are points            <br><br>
+            why are points            <br><br>
+            where are points          </p>
     </div>
-    <!-- ----------------------------------------Edit before this---------------------------------------------- -->
 
-
-    <!-- Chatbot initialization -------------------------------- DO NOT EDIT ------------------------------- -->
     <script type="module">
-
-        // Change the name of the sensei
-        //////////////////////////////////////////
-
-
         const name = "Alex";
-
-
-        //////////////////////////////////////////
-        
-        // Update image and text dynamically
-        document.getElementById("artImage").src = `../avatar/${name}.jpg`;
+        document.getElementById("artImage").src = `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`;
         document.getElementById("senseiName").textContent = `${name}`;
-
-        // Initialize the chatbot
-        import Chatbot from "../js/web.js";
+        
+        import Chatbot from "https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@8ea1acf3f2ecd92f082d726fcd9b629fdd8496ba/js/webmin.js";
         Chatbot.init({
             chatflowid: "5c921973-32d4-44da-a7a7-a25ef6924c20",
             apiHost: "https://chat.artsensei.ai",
@@ -51,22 +108,22 @@ where are points          </p>
                 chatWindow: {
                     showTitle: true,
                     title: `${name}`,
-                    titleAvatarSrc: `../avatar/${name}.jpg`,
+                    titleAvatarSrc: `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`,
                     showAgentMessages: false,
                     welcomeMessage: `Hi there! Are you ready to work on drawings of trees?`,
                     errorMessage: 'Error: Please contact teacher',
                     backgroundColor: "#212121",
                     height: 700,
-                    width: '100%', /* Ensures full use of available width on mobile */
+                    width: '100%',
                     fontSize: 16,
                     poweredByTextColor: "#b3b3b3",
                     botMessage: {
                         backgroundColor: "#212121",
                         textColor: "#b3b3b3",
                         showAvatar: true,
-                        avatarSrc: `../avatar/${name}.jpg`,
-                        maxWidth: '100%', /* Set the bot message to take full width of the chat window */
-                        marginRight: '60px', /* Keep some space from the right side of the screen */
+                        avatarSrc: `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`,
+                        maxWidth: '100%',
+                        marginRight: '60px',
                     },
                     userMessage: {
                         backgroundColor: "#333333",
@@ -82,8 +139,8 @@ where are points          </p>
                         maxChars: 300,
                         maxCharsWarningMessage: 'You exceeded the characters limit. Please input less than 300 characters.',
                         autoFocus: true,
-                        width: '100%', /* Keep text input box fixed within screen width */
-                        boxSizing: 'border-box', /* Ensure proper sizing within its container */
+                        width: '100%',
+                        boxSizing: 'border-box',
                     },
                     feedback: {
                         color: '#b3b3b3',
@@ -98,9 +155,9 @@ where are points          </p>
             }
         });
     </script>
-    <!-- Chatbot End ------------------------------------------------------------ DO NOT EDIT -->
-    <script src="../js/log-errors.js"></script>
-    <script src="../js/override-chatbot-styles.js"></script>
-    <script src="../js/tts-service.js"></script>
+    
+    <script src="../js/log-errors.js" defer></script>
+    <script src="../js/override-chatbot-styles.js" defer></script>
+    <script src="../js/tts-service.js" defer></script>
 </body>
 </html>
