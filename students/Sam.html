@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtSensei</title>
+    <link rel="icon" type="image/x-icon" href="../Cathy.ico">
+    <link rel="preload" href="../css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../css/styles.css"></noscript>
+    <style>
+        /* Basic CSS to center the text horizontally and add padding to the top */ 
+        body {
+            margin-top: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Poppins', sans-serif; /* Sans-serif for the title */
+        }
+
+        img {
+            max-width: 80%; /* Responsive size for the image */
+            height: auto; /* Keep aspect ratio */
+            border-radius: 10px; /* Rounded corners for the image */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+        }
+
+        h2 {
+            margin-top: 20px; /* Space between the image and the title */
+            margin-bottom: 10px; /* Space between title and subtext */
+            font-size: 3rem; /* Large font size */
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .subtext {
+            margin-top: 0; /* Remove margin between lines */
+            font-size: 1.3rem; /* Slightly smaller font */
+            color: #000; /* Mid-grey color */
+            font-weight: normal;
+            text-align: center;
+        }
+
+        #logContainer {
+            max-height: 300px;
+            min-height: 100px; /* Ensure a minimum height */
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 20px;
+            font-family: monospace;
+            background-color: #f9f9f9;
+            white-space: pre-wrap;
+        }
+
+        .bodytext {
+            margin: 0 52px 20px 52px; /* Margin around the body text */
+            font-size: 1.1rem; /* Font size */
+            line-height: 1.3em;
+            color: #4a4a4a; /* Mid-grey color */
+            font-weight: normal;
+            text-align: left;
+            font-family: 'Lora', serif; /* Serif font for the body text */
+            max-width: 900px;
+            min-height: 100px; /* Adjust based on expected content */
+        }
+
+        .log { color: black; }
+        .warn { color: orange; }
+        .error { color: red; }
+
+        /* Styling the chatbot container */
+        flowise-chatbot {
+            margin-top: 20px; /* Space between the text and the chatbot */
+        }
+
+        /* Centering and maintaining layout */
+        .max-width {
+            max-width: 1200px;
+            margin: 0 auto; /* Centers the container */
+        }
+    </style>
+</head>
+<body>
+
+    <img id="artImage" alt="Art Image" width="320" height="370">
+    <h2 id="senseiName"></h2>
+    <input type="hidden" id="voiceId" value="F0yTXVI2WXEIiShs00dR">
+    <p class="subtext">Lesson: The Anatomy of Trees</p>
+    <div style="display: none;" id="logContainer"></div>
+    <div class="max-width">
+        <p class="bodytext">
+            You and I work together in Art:110 to learn principles of drawing. I stay up to date on the class goals and help you stay focused on achieving them.
+            <br><br>
+            Ready? Press the chat button to get started. At the top of our chat window is a speaker icon. Press it to hear me talk. Press the mic button below to speak to me.
+            <br><br>
+            Since I'm in beta, I occasionally hallucinate. LOL
+          </p>
+
+    </div>
+
+    <script type="module">
+        const name = "Alex";
+        document.getElementById("artImage").src = `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`;
+        document.getElementById("senseiName").textContent = `${name}`;
+        
+        import Chatbot from "https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@8ea1acf3f2ecd92f082d726fcd9b629fdd8496ba/js/webmin.js";
+        Chatbot.init({
+            chatflowid: "fe66d963-44fc-4647-a8ec-7d29fbdd1fdf",
+            apiHost: "https://chat.artsensei.ai",
+            theme: {
+                chatWindow: {
+                    showTitle: true,
+                    title: `${name}`,
+                    titleAvatarSrc: `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`,
+                    showAgentMessages: false,
+                    welcomeMessage: `Hi there! Are you ready to work on drawings of trees?`,
+                    errorMessage: 'Error: Please contact teacher',
+                    backgroundColor: "#212121",
+                    height: 700,
+                    width: '100%',
+                    fontSize: 16,
+                    poweredByTextColor: "#b3b3b3",
+                    botMessage: {
+                        backgroundColor: "#212121",
+                        textColor: "#b3b3b3",
+                        showAvatar: true,
+                        avatarSrc: `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`,
+                        maxWidth: '100%',
+                        marginRight: '60px',
+                    },
+                    userMessage: {
+                        backgroundColor: "#333333",
+                        textColor: "#ffffff",
+                        showAvatar: false,
+                        avatarSrc: "https://raw.githubusercontent.com/zahidkhawaja/langchain-chat-nextjs/main/public/usericon.png",
+                    },
+                    textInput: {
+                        placeholder: 'Type your question',
+                        backgroundColor: '#212121',
+                        textColor: '#b3b3b3',
+                        sendButtonColor: '#3B81F6',
+                        maxChars: 300,
+                        maxCharsWarningMessage: 'You exceeded the characters limit. Please input less than 300 characters.',
+                        autoFocus: true,
+                        width: '100%',
+                        boxSizing: 'border-box',
+                    },
+                    feedback: {
+                        color: '#b3b3b3',
+                    },
+                    footer: {
+                        textColor: '#b3b3b3',
+                        text: 'Powered by',
+                        company: 'Artsensei',
+                        companyLink: 'https://artsensei.ai',
+                    }
+                }
+            }
+        });
+    </script>
+    
+    <script src="../js/log-errors.js" defer></script>
+    <script src="../js/override-chatbot-styles.js" defer></script>
+    <script src="../js/tts-service.js" defer></script>
+</body>
+</html>
