@@ -77,18 +77,22 @@
     <div style="display: none;" id="logContainer"></div>
     <div class="max-width">
         <p class="bodytext">
-            Hello Xaveire! Welcome to ArtSensei. I'm here to guide you through the lesson on trees. Let's work together on achieving your goals in drawing!
+            Hi Xaveire! I'm your personal assistant in Art 110: Drawing Principles. I have been customized according to your specifications to help you learn, explore your interests, and enjoy the act of drawing. 
             <br><br>
-            Ready? Press the chat button to get started. At the top of our chat window is a speaker icon. Press it to hear me talk. Press the mic button below to speak to me.
-            <br><br>
-            Since I'm in beta, I occasionally make errors. Let's work together anyway!
+            Rather than being a substitute for a real person – your professor, student peers, family, and friends – I am a ready-to-go rambling resource to use on your own.
+            <br><br> 
+            To learn more about AI in college courses, 
+            <a target="_blank" href="https://news.harvard.edu/gazette/story/2024/09/professor-tailored-ai-tutor-to-physics-course-engagement-doubled/">click here</a>.
+            Tap the chat button and say hello!
         </p>
     </div>
 
     <script type="module">
-        const name = "Xaveire";
-        document.getElementById("artImage").src = `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`;
-        document.getElementById("senseiName").textContent = `Xaveire`;
+        const name = "Pretzel";
+        const src = 'https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@2598442d4429b4f0dd263bc4dddcaf8af37a6b66/avatar/Pretzel.webp';
+
+        document.getElementById("artImage").src = src;
+        document.getElementById("senseiName").textContent = name;
         
         import Chatbot from "https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@8ea1acf3f2ecd92f082d726fcd9b629fdd8496ba/js/webmin.js";
         Chatbot.init({
@@ -97,8 +101,8 @@
             theme: {
                 chatWindow: {
                     showTitle: true,
-                    title: `Xaveire`,
-                    titleAvatarSrc: `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`,
+                    title: name,
+                    titleAvatarSrc: src,
                     showAgentMessages: false,
                     welcomeMessage: `Hello Xaveire! Are you ready to work on drawings of trees?`,
                     errorMessage: 'Error: Please contact teacher',
@@ -111,7 +115,7 @@
                         backgroundColor: "#212121",
                         textColor: "#b3b3b3",
                         showAvatar: true,
-                        avatarSrc: `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`,
+                        avatarSrc: src,
                         maxWidth: '100%',
                         marginRight: '60px',
                     },
