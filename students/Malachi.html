@@ -88,9 +88,9 @@
     </div>
 
     <script type="module">
-        const name = "Malachi";
-        const src = ''
-        document.getElementById("artImage").src = `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`;
+        const name = "ArtSensei";
+        const src = 'https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@86915c15f32abb6a5f4c74924603fc2a8992f80e/avatar/ArtSensei.webp'
+        document.getElementById("artImage").src = src;
         document.getElementById("senseiName").textContent = `Malachi`;
         
         import Chatbot from "https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@8ea1acf3f2ecd92f082d726fcd9b629fdd8496ba/js/webmin.js";
@@ -100,8 +100,8 @@
             theme: {
                 chatWindow: {
                     showTitle: true,
-                    title: `Malachi`,
-                    titleAvatarSrc: `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`,
+                    title: name,
+                    titleAvatarSrc: src,
                     showAgentMessages: false,
                     welcomeMessage: `Hello Malachi! Are you ready to work on drawings of trees?`,
                     errorMessage: 'Error: Please contact teacher',
@@ -114,7 +114,7 @@
                         backgroundColor: "#212121",
                         textColor: "#b3b3b3",
                         showAvatar: true,
-                        avatarSrc: `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`,
+                        avatarSrc: src,
                         maxWidth: '100%',
                         marginRight: '60px',
                     },
