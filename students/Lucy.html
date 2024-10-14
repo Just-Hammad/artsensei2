@@ -81,14 +81,16 @@
             <br><br>
             Rather than being a substitute for a real person – your professor, student peers, family, and friends – I am a ready-to-go rambling resource to use on your own.
             <br><br> 
-            To learn more about AI in college courses, <a href="https://news.harvard.edu/gazette/story/2024/09/professor-tailored-ai-tutor-to-physics-course-engagement-doubled/">click here</a>.
+            To learn more about AI in college courses, 
+            <a target="_blank" href="https://news.harvard.edu/gazette/story/2024/09/professor-tailored-ai-tutor-to-physics-course-engagement-doubled/">click here</a>.
             Tap the chat button and say hello!
         </p>
     </div>
 
     <script type="module">
         const name = "Bob Ross";
-        document.getElementById("artImage").src = `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`;
+        const src = 'https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@08b47c425b7800ad2e0ea02992c19d439d2c6d20/avatar/Bob%20Ross.webp';
+        document.getElementById("artImage").src = src;
         document.getElementById("senseiName").textContent = name;
         
         import Chatbot from "https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@8ea1acf3f2ecd92f082d726fcd9b629fdd8496ba/js/webmin.js";
@@ -99,7 +101,7 @@
                 chatWindow: {
                     showTitle: true,
                     title: name,
-                    titleAvatarSrc: `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`,
+                    titleAvatarSrc: src,
                     showAgentMessages: false,
                     welcomeMessage: `Hello Lucy! Are you ready to work on drawings of trees?`,
                     errorMessage: 'Error: Please contact teacher',
@@ -112,7 +114,7 @@
                         backgroundColor: "#212121",
                         textColor: "#b3b3b3",
                         showAvatar: true,
-                        avatarSrc: `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`,
+                        avatarSrc: src,
                         maxWidth: '100%',
                         marginRight: '60px',
                     },
