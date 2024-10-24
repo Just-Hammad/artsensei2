@@ -72,14 +72,16 @@
 
     <img id="artImage" alt="Art Image" width="320" height="370">
     <h2 id="senseiName"></h2>
-    <input type="hidden" id="voiceId" value="F0yTXVI2WXEIiShs00dR">
+    <input type="hidden" id="voiceId" value="TxGEqnHWrfWFTfGW9XjX">
     <p class="subtext">Are you ready, Wyatt? Tap the button :)</p>
     <div style="display: none;" id="logContainer"></div>
 
     <script type="module">
         const name = "Wyatt";
-        document.getElementById("artImage").src = `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`;
-        document.getElementById("senseiName").textContent = `Wyatt`;
+        const src = "https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/";
+
+        document.getElementById("artImage").src = src;
+        document.getElementById("senseiName").textContent = name;
         
         import Chatbot from "https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@8ea1acf3f2ecd92f082d726fcd9b629fdd8496ba/js/webmin.js";
         Chatbot.init({
@@ -88,8 +90,8 @@
             theme: {
                 chatWindow: {
                     showTitle: true,
-                    title: `Wyatt`,
-                    titleAvatarSrc: `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`,
+                    title: name,
+                    titleAvatarSrc: src,
                     showAgentMessages: false,
                     welcomeMessage: `Hi, Wyatt! Let’s do this!`,
                     errorMessage: 'Error: Please contact teacher',
@@ -102,7 +104,7 @@
                         backgroundColor: "#212121",
                         textColor: "#b3b3b3",
                         showAvatar: true,
-                        avatarSrc: `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`,
+                        avatarSrc: src,
                         maxWidth: '100%',
                         marginRight: '60px',
                     },
