@@ -184,11 +184,11 @@
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
         controls.maxPolarAngle = Math.PI;
-        controls.minDistance = 7; 
-        controls.maxDistance = 20; 
+        controls.minDistance = 7;
+        controls.maxDistance = 20;
 
         let currentModel = null;
-        let wireframeMeshes = []; 
+        let wireframeMeshes = [];
 
         // FBX loader
         const loader = new FBXLoader();
@@ -348,6 +348,22 @@
             chatflowid: "c1058d7a-ed52-42ab-b5c9-a38bd181eb89",
             apiHost: "https://chat.artsensei.ai",
             theme: {
+                button: {
+                    backgroundColor: '#3B81F6',
+                    right: 20,
+                    bottom: 20,
+                    size: 48, // small | medium | large | number
+                    dragAndDrop: true,
+                    iconColor: 'white',
+                    customIconSrc: 'https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/google-messages.svg',
+                },
+                tooltip: {
+                    showTooltip: true,
+                    tooltipMessage: 'Hi Logan 👋!',
+                    tooltipBackgroundColor: 'black',
+                    tooltipTextColor: 'white',
+                    tooltipFontSize: 16,
+                },
                 chatWindow: {
                     showTitle: true,
                     title: name,
@@ -356,16 +372,15 @@
                     welcomeMessage: `Hi, Logan! Let's do this!`,
                     errorMessage: 'Error: Please contact teacher',
                     backgroundColor: "#212121",
-                    height: '100%',
-                    width: '100%',
-                    fontSize: 16,
+                    fontSize: 10,
+                    height: 500,
+                    width: 400,
                     poweredByTextColor: "#b3b3b3",
                     botMessage: {
                         backgroundColor: "#212121",
                         textColor: "#b3b3b3",
                         showAvatar: true,
                         avatarSrc: src,
-                        maxWidth: '100%',
                         marginRight: '60px',
                     },
                     userMessage: {
