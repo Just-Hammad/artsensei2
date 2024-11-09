@@ -8,112 +8,191 @@
     <link rel="preload" href="../css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="../css/styles.css"></noscript>
     <style>
-        /* Basic CSS to center the text horizontally and add padding to the top */ 
         body {
-            margin-top: 20px;
+            margin: 0;
             height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-family: 'Poppins', sans-serif; /* Sans-serif for the title */
+            font-family: 'Poppins', sans-serif;
+            background-color: #212121;
         }
 
-        img {
-            max-width: 80%; /* Responsive size for the image */
-            height: auto; /* Keep aspect ratio */
-            border-radius: 10px; /* Rounded corners for the image */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #modelContainer {
+            width: 100%;
+            height: 50vh;
+            position: relative;
+            background-color: #212121;
+        }
+
+        #modelCanvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .chat-container {
+            width: 100%;
+            height: 50vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         h2 {
-            margin-top: 20px; /* Space between the image and the title */
-            margin-bottom: 10px; /* Space between title and subtext */
-            font-size: 3rem; /* Large font size */
+            margin: 10px 0;
+            font-size: 2rem;
             font-weight: bold;
             text-align: center;
+            color: #b3b3b3;
         }
 
         .subtext {
-            margin-top: 0; /* Remove margin between lines */
-            font-size: 1.3rem; /* Slightly smaller font */
-            color: #000; /* Mid-grey color */
+            font-size: 1.1rem;
+            color: #b3b3b3;
             font-weight: normal;
             text-align: center;
+            margin: 5px 0;
         }
 
         #logContainer {
-            max-height: 300px;
-            min-height: 100px; /* Ensure a minimum height */
-            overflow-y: auto;
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-top: 20px;
-            font-family: monospace;
-            background-color: #f9f9f9;
-            white-space: pre-wrap;
-        }
-
-        .bodytext {
-            margin: 0 52px 20px 52px; /* Margin around the body text */
-            font-size: 1.1rem; /* Font size */
-            line-height: 1.3em;
-            color: #4a4a4a; /* Mid-grey color */
-            font-weight: normal;
-            text-align: left;
-            font-family: 'Lora', serif; /* Serif font for the body text */
-            max-width: 900px;
-            min-height: 100px; /* Adjust based on expected content */
-        }
-
-        .log { color: black; }
-        .warn { color: orange; }
-        .error { color: red; }
-
-        /* Styling the chatbot container */
-        flowise-chatbot {
-            margin-top: 20px; /* Space between the text and the chatbot */
-        }
-
-        /* Centering and maintaining layout */
-        .max-width {
-            max-width: 1200px;
-            margin: 0 auto; /* Centers the container */
+            display: none;
         }
     </style>
 </head>
 <body>
-
-    <img id="artImage" alt="Art Image" width="320" height="370">
-    <h2 id="senseiName"></h2>
-    <input type="hidden" id="voiceId" value="F0yTXVI2WXEIiShs00dR">
-    <p class="subtext">Lesson: The Anatomy of Trees</p>
-    <div style="display: none;" id="logContainer"></div>
-    <div class="max-width">
-        <p class="bodytext">
-            555555555555555555555555555555555555555555555555555555555555555555555555555555555
-        </p>
-
+    <div class="container">
+        <div id="modelContainer">
+            <canvas id="modelCanvas"></canvas>
+        </div>
+        
+        <div class="chat-container">
+            <h2 id="senseiName"></h2>
+            <input type="hidden" id="voiceId" value="F0yTXVI2WXEIiShs00dR">
+            <p class="subtext">Are you ready, Logan? Tap the button :)</p>
+            <div id="logContainer"></div>
+        </div>
     </div>
 
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+
     <script type="module">
-        const name = "Alex";
-        document.getElementById("artImage").src = `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`;
-        document.getElementById("senseiName").textContent = `${name}`;
+        import * as THREE from 'three';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        // Scene setup
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x212121);
+
+        // Camera setup
+        const canvas = document.getElementById('modelCanvas');
+        const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+        camera.position.z = 5;
+
+        // Renderer setup
+        const renderer = new THREE.WebGLRenderer({ 
+            canvas,
+            antialias: true 
+        });
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        
+        // Add lights
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(2, 2, 5);
+        scene.add(directionalLight);
+
+        // Add OrbitControls
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+
+        // Load the model
+        const loader = new GLTFLoader();
+        loader.load(
+            '../3DModels/human_head.glb',
+            function(gltf) {
+                const model = gltf.scene;
+                model.scale.set(2, 2, 2);
+                model.position.set(0, 0, 0);
+                scene.add(model);
+
+                // Center the model
+                const box = new THREE.Box3().setFromObject(model);
+                const center = box.getCenter(new THREE.Vector3());
+                model.position.sub(center);
+
+                // Adjust camera to fit model
+                const size = box.getSize(new THREE.Vector3());
+                const maxDim = Math.max(size.x, size.y, size.z);
+                const fov = camera.fov * (Math.PI / 180);
+                const cameraZ = Math.abs(maxDim / Math.tan(fov / 2)) * 1.5;
+                camera.position.z = cameraZ;
+                camera.updateProjectionMatrix();
+
+                controls.target.set(0, 0, 0);
+                controls.update();
+            },
+            undefined,
+            function(error) {
+                console.error('Error loading model:', error);
+            }
+        );
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Handle window resizing
+        window.addEventListener('resize', () => {
+            const container = document.getElementById('modelContainer');
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
+    </script>
+
+    <script type="module">
+        const name = "Gollum";
+        const src = 'https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@8b1fcc263558667375036d20b9a9d44a60f79112/avatar/Gollum.webp';
+        
+        document.getElementById("senseiName").textContent = name;
         
         import Chatbot from "https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@8ea1acf3f2ecd92f082d726fcd9b629fdd8496ba/js/webmin.js";
         Chatbot.init({
-            chatflowid: "30f7583f-e8a3-43b9-ae6f-daa313334131",
+            chatflowid: "c1058d7a-ed52-42ab-b5c9-a38bd181eb89",
             apiHost: "https://chat.artsensei.ai",
             theme: {
                 chatWindow: {
                     showTitle: true,
-                    title: `${name}`,
-                    titleAvatarSrc: `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`,
+                    title: name,
+                    titleAvatarSrc: src,
                     showAgentMessages: false,
-                    welcomeMessage: `Hi there! Are you ready to work on drawings of trees?`,
+                    welcomeMessage: `Hi, Logan! Let's do this!`,
                     errorMessage: 'Error: Please contact teacher',
                     backgroundColor: "#212121",
-                    height: 700,
+                    height: '100%',
                     width: '100%',
                     fontSize: 16,
                     poweredByTextColor: "#b3b3b3",
@@ -121,7 +200,7 @@
                         backgroundColor: "#212121",
                         textColor: "#b3b3b3",
                         showAvatar: true,
-                        avatarSrc: `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`,
+                        avatarSrc: src,
                         maxWidth: '100%',
                         marginRight: '60px',
                     },
