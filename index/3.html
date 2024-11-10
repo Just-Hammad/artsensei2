@@ -1,164 +1,592 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ArtSensei</title>
     <link rel="icon" type="image/x-icon" href="../Cathy.ico">
-    <link rel="preload" href="../css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="../css/styles.css"></noscript>
     <style>
-        /* Basic CSS to center the text horizontally and add padding to the top */ 
         body {
-            margin-top: 20px;
+            margin: 0;
             height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-family: 'Poppins', sans-serif; /* Sans-serif for the title */
+            font-family: 'Poppins', sans-serif;
+            background-color: #212121;
         }
 
-        img {
-            max-width: 80%; /* Responsive size for the image */
-            height: auto; /* Keep aspect ratio */
-            border-radius: 10px; /* Rounded corners for the image */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        h2 {
-            margin-top: 20px; /* Space between the image and the title */
-            margin-bottom: 10px; /* Space between title and subtext */
-            font-size: 3rem; /* Large font size */
-            font-weight: bold;
-            text-align: center;
+        #modelContainer {
+            width: 100%;
+            height: 70vh;
+            position: relative;
+            background-color: #212121;
         }
 
-        .subtext {
-            margin-top: 0; /* Remove margin between lines */
-            font-size: 1.3rem; /* Slightly smaller font */
-            color: #000; /* Mid-grey color */
-            font-weight: normal;
-            text-align: center;
+        #modelCanvas {
+            margin-top: 60px;
+            width: 100%;
+            height: 100%;
+            margin-left: 20vw;
+
         }
 
-        #logContainer {
-            max-height: 300px;
-            min-height: 100px; /* Ensure a minimum height */
+        .chat-container {
+            width: 100%;
+            height: 30vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .model-controls {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 100;
+            background: rgba(33, 33, 33, 0.9);
+            padding: 16px;
+            border-radius: 8px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            max-width: 800px;
+            max-height: 100vh;
             overflow-y: auto;
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-top: 20px;
-            font-family: monospace;
-            background-color: #f9f9f9;
-            white-space: pre-wrap;
+            backdrop-filter: blur(8px);
         }
 
-        .bodytext {
-            margin: 0 52px 20px 52px; /* Margin around the body text */
-            font-size: 1.1rem; /* Font size */
-            line-height: 1.3em;
-            color: #4a4a4a; /* Mid-grey color */
-            font-weight: normal;
-            text-align: left;
-            font-family: 'Lora', serif; /* Serif font for the body text */
-            max-width: 900px;
-            min-height: 100px; /* Adjust based on expected content */
+        .light-control {
+            background: #333333;
+            padding: 12px;
+            border-radius: 6px;
+            color: rgba(255, 255, 255, 0.8);
         }
 
-        .log { color: black; }
-        .warn { color: orange; }
-        .error { color: red; }
-
-        /* Styling the chatbot container */
-        flowise-chatbot {
-            margin-top: 20px; /* Space between the text and the chatbot */
+        .light-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
         }
 
-        /* Centering and maintaining layout */
-        .max-width {
-            max-width: 1200px;
-            margin: 0 auto; /* Centers the container */
+        .light-header h3 {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .toggle-button {
+            background: #444444;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .toggle-button.active {
+            background: #5aacc7;
+        }
+
+        .light-params {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .light-params label {
+            font-size: 12px;
+            color: #b3b3b3;
+        }
+
+        .light-params input[type="range"] {
+            width: 100%;
+        }
+
+        .light-params input[type="number"] {
+            width: 60px;
+            background: #444444;
+            border: none;
+            color: white;
+            padding: 4px;
+            border-radius: 4px;
+        }
+
+        #exportButton {
+            background: #5aacc7;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            grid-column: span 2;
+        }
+
+        #exportButton:hover {
+            background: #4899b4;
+        }
+
+        .loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #b3b3b3;
+            font-size: 1.2rem;
+        }
+
+        #wireframeButton {
+            background: #444444;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            grid-column: span 2;
+        }
+
+        #wireframeButton.active {
+            background: #5aacc7;
+        }
+
+        .controls-buttons {
+            grid-column: span 2;
+            display: flex;
+            gap: 8px;
+        }
+
+        .helper-toggle {
+            background: #444444;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .helper-toggle.active {
+            background: #5aacc7;
         }
     </style>
 </head>
-<body>
 
-    <img id="artImage" alt="Art Image" width="320" height="370">
-    <h2 id="senseiName"></h2>
-    <input type="hidden" id="voiceId" value="F0yTXVI2WXEIiShs00dR">
-    <p class="subtext">Lesson: The Anatomy of Trees</p>
-    <div style="display: none;" id="logContainer"></div>
-    <div class="max-width">
-        <p class="bodytext">
-abradcadabababababbababa
-adawdawdjkawdad
-adwadwad
-        </p>
+<body>
+    <div class="container">
+        <div id="modelContainer">
+            <div class="model-controls">
+                <div class="controls-buttons">
+                    <button id="wireframeButton" class="active">Toggle Wireframe</button>
+                    <button id="helpersButton" class="helper-toggle">Toggle Light Helpers</button>
+                </div>
+
+                <div class="light-control">
+                    <div class="light-header">
+                        <h3>Ambient Light</h3>
+                        <button class="toggle-button active" data-light="ambient">On</button>
+                    </div>
+                    <div class="light-params">
+                        <label>Intensity:</label>
+                        <input type="range" min="0" max="1" step="0.05" value="0.2" data-light="ambient"
+                            data-param="intensity">
+                    </div>
+                </div>
+
+                <div class="light-control">
+                    <div class="light-header">
+                        <h3>Hemisphere Light</h3>
+                        <button class="toggle-button active" data-light="hemisphere">On</button>
+                    </div>
+                    <div class="light-params">
+                        <label>Intensity:</label>
+                        <input type="range" min="0" max="1" step="0.05" value="0.2" data-light="hemisphere"
+                            data-param="intensity">
+                    </div>
+                </div>
+
+                <div class="light-control">
+                    <div class="light-header">
+                        <h3>Fill 1 (Main)</h3>
+                        <button class="toggle-button active" data-light="fill1">On</button>
+                    </div>
+                    <div class="light-params">
+                        <label>X Position:</label>
+                        <input type="range" min="-10" max="10" step="0.1" value="5" data-light="fill1" data-param="x">
+                        <label>Y Position:</label>
+                        <input type="range" min="-10" max="10" step="0.1" value="5" data-light="fill1" data-param="y">
+                        <label>Z Position:</label>
+                        <input type="range" min="-10" max="10" step="0.1" value="5" data-light="fill1" data-param="z">
+                        <label>Intensity:</label>
+                        <input type="range" min="0" max="2" step="0.1" value="1" data-light="fill1" data-param="intensity">
+                    </div>
+                </div>
+
+                <div class="light-control">
+                    <div class="light-header">
+                        <h3>Fill 2</h3>
+                        <button class="toggle-button active" data-light="fill2">On</button>
+                    </div>
+                    <div class="light-params">
+                        <label>X Position:</label>
+                        <input type="range" min="-10" max="10" step="0.1" value="-5" data-light="fill2" data-param="x">
+                        <label>Y Position:</label>
+                        <input type="range" min="-10" max="10" step="0.1" value="0" data-light="fill2" data-param="y">
+                        <label>Z Position:</label>
+                        <input type="range" min="-10" max="10" step="0.1" value="5" data-light="fill2" data-param="z">
+                        <label>Intensity:</label>
+                        <input type="range" min="0" max="2" step="0.1" value="0.8" data-light="fill2" data-param="intensity">
+                    </div>
+                </div>
+
+                <div class="light-control">
+                    <div class="light-header">
+                        <h3>Fill 3</h3>
+                        <button class="toggle-button active" data-light="fill3">On</button>
+                    </div>
+                    <div class="light-params">
+                        <label>X Position:</label>
+                        <input type="range" min="-10" max="10" step="0.1" value="5" data-light="fill3" data-param="x">
+                        <label>Y Position:</label>
+                        <input type="range" min="-10" max="10" step="0.1" value="0" data-light="fill3" data-param="y">
+                        <label>Z Position:</label>
+                        <input type="range" min="-10" max="10" step="0.1" value="-5" data-light="fill3" data-param="z">
+                        <label>Intensity:</label>
+                        <input type="range" min="0" max="2" step="0.1" value="0.6" data-light="fill3" data-param="intensity">
+                    </div>
+                </div>
+
+                <div class="light-control">
+                    <div class="light-header">
+                        <h3>Fill 4 (Shadow)</h3>
+                        <button class="toggle-button active" data-light="fill4">On</button>
+                    </div>
+                    <div class="light-params">
+                        <label>X Position:</label>
+                        <input type="range" min="-10" max="10" step="0.1" value="-5" data-light="fill4" data-param="x">
+                        <label>Y Position:</label>
+                        <input type="range" min="-10" max="10" step="0.1" value="-5" data-light="fill4" data-param="y">
+                        <label>Z Position:</label>
+                        <input type="range" min="-10" max="10" step="0.1" value="-5" data-light="fill4" data-param="z">
+                        <label>Intensity:</label>
+                        <input type="range" min="0" max="2" step="0.1" value="1.2" data-light="fill4" data-param="intensity">
+                    </div>
+                </div>
+
+                <button id="exportButton">Export Light Settings</button>
+            </div>
+            <canvas id="modelCanvas"></canvas>
+            <div class="loader">Loading model...</div>
+        </div>
+
+        <div class="chat-container">
+            <h2 id="senseiName"></h2>
+        </div>
     </div>
 
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+            "three/examples/jsm/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+
     <script type="module">
-        const name = "Alex";
-        document.getElementById("artImage").src = `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`;
-        document.getElementById("senseiName").textContent = `${name}`;
-        
-        import Chatbot from "https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@8ea1acf3f2ecd92f082d726fcd9b629fdd8496ba/js/webmin.js";
-        Chatbot.init({
-            chatflowid: "62ee3b5c-de06-4b67-a4fa-5cd19e53be96", // Kept the same as requested
-            apiHost: "https://chat.artsensei.ai",
-            theme: {
-                chatWindow: {
-                    showTitle: true,
-                    title: `${name}`,
-                    titleAvatarSrc: `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`,
-                    showAgentMessages: false,
-                    welcomeMessage: `Hi there! Are you ready to work on drawings of trees?`,
-                    errorMessage: 'Error: Please contact teacher',
-                    backgroundColor: "#212121",
-                    height: 700,
-                    width: '100%',
-                    fontSize: 16,
-                    poweredByTextColor: "#b3b3b3",
-                    botMessage: {
-                        backgroundColor: "#212121",
-                        textColor: "#b3b3b3",
-                        showAvatar: true,
-                        avatarSrc: `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`,
-                        maxWidth: '100%',
-                        marginRight: '60px',
-                    },
-                    userMessage: {
-                        backgroundColor: "#333333",
-                        textColor: "#ffffff",
-                        showAvatar: false,
-                        avatarSrc: "https://raw.githubusercontent.com/zahidkhawaja/langchain-chat-nextjs/main/public/usericon.png",
-                    },
-                    textInput: {
-                        placeholder: 'Type your question',
-                        backgroundColor: '#212121',
-                        textColor: '#b3b3b3',
-                        sendButtonColor: '#3B81F6',
-                        maxChars: 300,
-                        maxCharsWarningMessage: 'You exceeded the characters limit. Please input less than 300 characters.',
-                        autoFocus: true,
-                        width: '100%',
-                        boxSizing: 'border-box',
-                    },
-                    feedback: {
-                        color: '#b3b3b3',
-                    },
-                    footer: {
-                        textColor: '#b3b3b3',
-                        text: 'Powered by',
-                        company: 'Artsensei',
-                        companyLink: 'https://artsensei.ai',
-                    }
-                }
+        import * as THREE from 'three';
+        import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        // Scene setup
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x212121);
+
+        const canvas = document.getElementById('modelCanvas');
+        const camera = new THREE.PerspectiveCamera(35, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+        camera.position.set(0, 0, 15);
+
+        const renderer = new THREE.WebGLRenderer({
+            canvas,
+            antialias: true,
+            alpha: true
+        });
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+        // Lighting Setup
+        const lights = {
+            ambient: new THREE.AmbientLight(0xcccccc, 0.5),
+            hemisphere: new THREE.HemisphereLight(0xffffff, 0x444444, 0.2),
+            fill1: new THREE.DirectionalLight(0xffffff, 1.0),
+            fill2: new THREE.DirectionalLight(0xffffff, 0.8),
+            fill3: new THREE.DirectionalLight(0xffffff, 0.6),
+            fill4: new THREE.DirectionalLight(0xffffff, 1.2)
+        };
+
+        // Light helpers container
+        const lightHelpers = {};
+
+        // Set initial positions
+        lights.fill1.position.set(5, 5, 5);
+        lights.fill2.position.set(-5, 0, 5);
+        lights.fill3.position.set(5, 0, -5);
+        lights.fill4.position.set(-5, -5, -5);
+
+        // Create helpers for directional lights
+        Object.entries(lights).forEach(([name, light]) => {
+            if (light instanceof THREE.DirectionalLight) {
+                lightHelpers[name] = new THREE.DirectionalLightHelper(light, 1);
+                scene.add(lightHelpers[name]);
+            }
+            if (light instanceof THREE.HemisphereLight) {
+                lightHelpers[name] = new THREE.HemisphereLightHelper(light, 1);
+                scene.add(lightHelpers[name]);
             }
         });
+
+        // Setup shadow properties for main light
+        lights.fill1.castShadow = true;
+        lights.fill1.shadow.mapSize.width = 2048;
+        lights.fill1.shadow.mapSize.height = 2048;
+        lights.fill1.shadow.camera.near = 0.1;
+        lights.fill1.shadow.camera.far = 100;
+        lights.fill1.shadow.bias = -0.001;
+
+        // Add lights to scene
+        Object.values(lights).forEach(light => scene.add(light));
+
+        // Toggle light helpers
+        let helpersVisible = true;
+        document.getElementById('helpersButton').addEventListener('click', (e) => {
+            helpersVisible = !helpersVisible;
+            Object.values(lightHelpers).forEach(helper => {
+                helper.visible = helpersVisible;
+            });
+            e.target.classList.toggle('active');
+        });
+
+        // OrbitControls
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.maxPolarAngle = Math.PI;
+        controls.minDistance = 7;
+        controls.maxDistance = 20;
+
+        let currentModel = null;
+        let wireframeMeshes = [];
+
+        // FBX loader
+        const loader = new FBXLoader();
+        loader.load(
+            '../3DModels/human_head.fbx',
+            function (object) {
+                document.querySelector('.loader').style.display = 'none';
+                currentModel = object;
+
+                // Clear existing wireframe meshes
+                wireframeMeshes.forEach(mesh => scene.remove(mesh));
+                wireframeMeshes = [];
+
+                object.traverse(function (child) {
+                    if (child.isMesh) {
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+
+                        // Create wireframe
+                        const wireframeGeometry = new THREE.WireframeGeometry(child.geometry);
+                        const wireframeMaterial = new THREE.LineBasicMaterial({
+                            color: 0x5aacc7,
+                            linewidth: 1,
+                            opacity: 0.5,
+                            transparent: true
+                        });
+                        const wireframe = new THREE.LineSegments(wireframeGeometry, wireframeMaterial);
+                        wireframe.matrix = child.matrix;
+                        wireframe.matrixWorld = child.matrixWorld;
+                        wireframe.matrixAutoUpdate = false;
+                        wireframe.visible = true;
+
+                        wireframeMeshes.push(wireframe);
+                        scene.add(wireframe);
+
+                        // Material enhancement
+                        if (child.material) {
+                            if (Array.isArray(child.material)) {
+                                child.material.forEach(mat => enhanceMaterial(mat));
+                            } else {
+                                enhanceMaterial(child.material);
+                            }
+                        }
+                    }
+                });
+
+                // Scale and position model
+                const box = new THREE.Box3().setFromObject(object);
+                const size = box.getSize(new THREE.Vector3());
+                const center = box.getCenter(new THREE.Vector3());
+
+                const maxDim = Math.max(size.x, size.y, size.z);
+                const scale = 8 / maxDim;
+                object.scale.setScalar(scale);
+                object.position.sub(center.multiplyScalar(scale));
+
+                scene.add(object);
+
+                // Update wireframe transforms
+                wireframeMeshes.forEach(wireframe => {
+                    wireframe.scale.copy(object.scale);
+                    wireframe.position.copy(object.position);
+                    wireframe.rotation.copy(object.rotation);
+                });
+
+                // Set initial camera position
+                camera.position.set(0, 0, 15);
+                controls.target.set(0, 0, 0);
+                controls.update();
+            },
+            function (xhr) {
+                const percentComplete = xhr.loaded / xhr.total * 100;
+                document.querySelector('.loader').textContent =
+                    'Loading: ' + Math.round(percentComplete) + '%';
+            },
+            function (error) {
+                console.error('Error loading model:', error);
+                document.querySelector('.loader').textContent = 'Error loading model';
+            }
+        );
+
+        // Material Enhancement Function
+        function enhanceMaterial(material) {
+            material.side = THREE.DoubleSide;
+            if (material.isMeshPhongMaterial || material.isMeshStandardMaterial) {
+                material.color.setHex(0xffffff);
+                material.shininess = 0;
+                material.reflectivity = 0;
+                material.metalness = 0;
+                material.roughness = 1;
+                material.envMapIntensity = 0;
+            }
+            material.needsUpdate = true;
+        }
+
+        // Light Control Event Listeners
+        document.querySelectorAll('.light-params input[type="range"]').forEach(input => {
+            input.addEventListener('input', (e) => {
+                const lightName = e.target.dataset.light;
+                const param = e.target.dataset.param;
+                const value = parseFloat(e.target.value);
+
+                if (param === 'intensity') {
+                    lights[lightName].intensity = value;
+                } else {
+                    lights[lightName].position[param] = value;
+                    // Update light helper if it exists
+                    if (lightHelpers[lightName]) {
+                        lightHelpers[lightName].update();
+                    }
+                }
+            });
+        });
+
+        // Light Toggle Event Listeners
+        document.querySelectorAll('.toggle-button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const lightName = e.target.dataset.light;
+                if (lights[lightName]) {
+                    lights[lightName].visible = !lights[lightName].visible;
+                    e.target.classList.toggle('active');
+
+                    // Toggle helper visibility if it exists
+                    if (lightHelpers[lightName]) {
+                        lightHelpers[lightName].visible = lights[lightName].visible && helpersVisible;
+                    }
+
+                    // Update the intensity input if it exists
+                    const intensityInput = document.querySelector(`input[data-light="${lightName}"][data-param="intensity"]`);
+                    if (intensityInput) {
+                        intensityInput.disabled = !lights[lightName].visible;
+                    }
+                }
+            });
+        });
+
+        // Wireframe Toggle
+        document.getElementById('wireframeButton').addEventListener('click', (e) => {
+            wireframeMeshes.forEach(wireframe => {
+                wireframe.visible = !wireframe.visible;
+            });
+            e.target.classList.toggle('active');
+        });
+
+        // Export Light Settings
+        document.getElementById('exportButton').addEventListener('click', () => {
+            const lightSettings = {};
+            Object.entries(lights).forEach(([name, light]) => {
+                lightSettings[name] = {
+                    intensity: light.intensity,
+                    visible: light.visible
+                };
+                if (light instanceof THREE.DirectionalLight || light instanceof THREE.HemisphereLight) {
+                    lightSettings[name].position = {
+                        x: light.position.x,
+                        y: light.position.y,
+                        z: light.position.z
+                    };
+                }
+            });
+
+            const settingsString = JSON.stringify(lightSettings, null, 2);
+
+            // Create download file
+            const blob = new Blob([settingsString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'light-settings.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            console.log('Light Settings:', settingsString);
+        });
+
+        // Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            // Update all light helpers
+            Object.values(lightHelpers).forEach(helper => {
+                if (helper && helper.update) {
+                    helper.update();
+                }
+            });
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Window Resize Handler
+        window.addEventListener('resize', () => {
+            const container = document.getElementById('modelContainer');
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
     </script>
-    
-    <script src="../js/log-errors.js" defer></script>
-    <script src="../js/override-chatbot-styles.js" defer></script>
-    <script src="../js/tts-service.js" defer></script>
 </body>
+
 </html>
