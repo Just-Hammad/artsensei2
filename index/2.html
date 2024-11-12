@@ -78,7 +78,7 @@
             font-size: 1.2rem;
         }
 
-        
+
         .model-controls {
             position: absolute;
             top: 10px;
@@ -238,7 +238,7 @@
             <div class="loader">Loading model...</div>
         </div>
 
-        
+
         <div class="chat-container">
             <input type="hidden" id="voiceId" value="F0yTXVI2WXEIiShs00dR">
             <div id="logContainer"></div>
@@ -259,6 +259,8 @@
         import * as THREE from 'three';
         import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        let isWireframeVisible = true;
 
         const lightingPresets = {
             male: {
@@ -362,7 +364,7 @@
 
                             const wireframeGeometry = new THREE.WireframeGeometry(child.geometry);
                             const wireframeMaterial = new THREE.LineBasicMaterial({
-                                color: 0x5aacc7,
+                                color: 0x808080,
                                 linewidth: 1,
                                 opacity: 0.5,
                                 transparent: true
@@ -371,7 +373,7 @@
                             wireframe.matrix = child.matrix;
                             wireframe.matrixWorld = child.matrixWorld;
                             wireframe.matrixAutoUpdate = false;
-                            wireframe.visible = true;
+                            wireframe.visible = isWireframeVisible; // Use the tracked state
 
                             wireframeMeshes.push(wireframe);
                             scene.add(wireframe);
@@ -460,8 +462,9 @@
 
         // Event listeners
         document.getElementById('toggleWireframe').addEventListener('click', (e) => {
+            isWireframeVisible = !isWireframeVisible;
             wireframeMeshes.forEach(wireframe => {
-                wireframe.visible = !wireframe.visible;
+                wireframe.visible = isWireframeVisible;
             });
             e.target.classList.toggle('active');
         });
