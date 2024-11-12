@@ -172,13 +172,6 @@
             <canvas id="modelCanvas"></canvas>
             <div class="loader">Loading model...</div>
         </div>
-
-        <div class="chat-container">
-            <h2 id="senseiName"></h2>
-            <input type="hidden" id="voiceId" value="F0yTXVI2WXEIiShs00dR">
-            <p class="subtext">Are you ready, Logan? Tap the button :)</p>
-            <div id="logContainer"></div>
-        </div>
     </div>
 
     <script type="importmap">
@@ -415,8 +408,6 @@
         const name = "Gollum";
         const src = 'https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@8b1fcc263558667375036d20b9a9d44a60f79112/avatar/Gollum.webp';
 
-        document.getElementById("senseiName").textContent = name;
-
         import Chatbot from "https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@8ea1acf3f2ecd92f082d726fcd9b629fdd8496ba/js/webmin.js";
         Chatbot.init({
             chatflowid: "c1058d7a-ed52-42ab-b5c9-a38bd181eb89",
@@ -453,8 +444,6 @@
                     botMessage: {
                         backgroundColor: "#212121",
                         textColor: "#b3b3b3",
-                        showAvatar: true,
-                        avatarSrc: src,
                         marginRight: '60px',
                     },
                     userMessage: {

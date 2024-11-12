@@ -26,25 +26,20 @@
 
         #modelContainer {
             width: 100%;
-            height: 70vh;
+            height: 100%;
             position: relative;
             background-color: #212121;
+            border-color: aqua;
+            border-width: 10px;
         }
 
         #modelCanvas {
-            margin-top: 60px;
-            width: 100%;
+            width: calc(100% - 505px);
             height: 100%;
-            margin-left: 20vw;
+            margin-left: 500px;
+            border-width: 6px;
+            border-color: purple;
 
-        }
-
-        .chat-container {
-            width: 100%;
-            height: 30vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
 
         .model-controls {
@@ -143,6 +138,7 @@
             transform: translate(-50%, -50%);
             color: #b3b3b3;
             font-size: 1.2rem;
+            margin-left: 20%;
         }
 
         #wireframeButton {
@@ -287,10 +283,6 @@
             <canvas id="modelCanvas"></canvas>
             <div class="loader">Loading model...</div>
         </div>
-
-        <div class="chat-container">
-            <h2 id="senseiName"></h2>
-        </div>
     </div>
 
     <script type="importmap">
@@ -409,7 +401,7 @@
                         // Create wireframe
                         const wireframeGeometry = new THREE.WireframeGeometry(child.geometry);
                         const wireframeMaterial = new THREE.LineBasicMaterial({
-                            color: 0x5aacc7,
+                            color: 0x5aff,
                             linewidth: 1,
                             opacity: 0.5,
                             transparent: true
@@ -440,7 +432,7 @@
                 const center = box.getCenter(new THREE.Vector3());
 
                 const maxDim = Math.max(size.x, size.y, size.z);
-                const scale = 8 / maxDim;
+                const scale = 6 / maxDim;
                 object.scale.setScalar(scale);
                 object.position.sub(center.multiplyScalar(scale));
 
