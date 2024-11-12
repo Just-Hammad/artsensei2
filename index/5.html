@@ -172,6 +172,11 @@
             <canvas id="modelCanvas"></canvas>
             <div class="loader">Loading model...</div>
         </div>
+
+        <div class="chat-container">
+            <input type="hidden" id="voiceId" value="F0yTXVI2WXEIiShs00dR">
+            <div id="logContainer"></div>
+        </div>
     </div>
 
     <script type="importmap">
@@ -408,7 +413,7 @@
         const name = "Gollum";
         const src = 'https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@8b1fcc263558667375036d20b9a9d44a60f79112/avatar/Gollum.webp';
 
-        import Chatbot from "https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@8ea1acf3f2ecd92f082d726fcd9b629fdd8496ba/js/webmin.js";
+        import Chatbot from "../js/web.js";
         Chatbot.init({
             chatflowid: "c1058d7a-ed52-42ab-b5c9-a38bd181eb89",
             apiHost: "https://chat.artsensei.ai",
@@ -431,20 +436,21 @@
                 },
                 chatWindow: {
                     showTitle: true,
-                    title: name,
+                    title: `${name}`,
                     titleAvatarSrc: src,
                     showAgentMessages: false,
-                    welcomeMessage: `Hi, Logan! Let's do this!`,
+                    welcomeMessage: `Hi there! Are you ready to work on drawings of trees?`,
                     errorMessage: 'Error: Please contact teacher',
-                    backgroundColor: "#212121",
-                    fontSize: 10,
+                    backgroundColor: "#141414",
                     height: 500,
                     width: 400,
+                    fontSize: 12,
                     poweredByTextColor: "#b3b3b3",
                     botMessage: {
                         backgroundColor: "#212121",
                         textColor: "#b3b3b3",
-                        marginRight: '60px',
+                        showAvatar: true,
+                        avatarSrc: src,
                     },
                     userMessage: {
                         backgroundColor: "#333333",
