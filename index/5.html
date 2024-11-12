@@ -245,7 +245,7 @@
         // FBX loader
         const loader = new FBXLoader();
         loader.load(
-            '../3DModels/human_head.fbx',
+            'https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@ea9de1d0a94bd26ac5d66c963961a570aaec7559/3DModels/human_head.fbx',
             function (object) {
                 document.querySelector('.loader').style.display = 'none';
                 currentModel = object;
