@@ -117,6 +117,7 @@ function startObservingButton(){
                 </svg>
                 `;
 
+                
                 if (SoundOn) {
                     soundButton.innerHTML = EnablesoundIconSVG; 
                 } else {
