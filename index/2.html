@@ -39,6 +39,8 @@
             margin-top: 60px;
             width: 100%;
             height: calc(100% - 60px);
+            border: #e9ffa2;
+            border-width: 6px;
         }
 
         .chat-container {
@@ -78,17 +80,16 @@
             font-size: 1.2rem;
         }
 
-
         .model-controls {
             position: absolute;
             top: 10px;
             left: 10px;
             z-index: 100;
             background: rgba(33, 33, 33, 0.8);
-            padding: 12px;
+            padding: 8px;
             border-radius: 8px;
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             gap: 8px;
             max-width: calc(100% - 24px);
             backdrop-filter: blur(8px);
@@ -98,10 +99,10 @@
             background: #333333;
             color: rgba(255, 255, 255, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 8px 16px;
+            padding: 8px 12px;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 500;
             transition: all 0.2s ease;
             position: relative;
@@ -111,6 +112,8 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease;
+            flex-shrink: 1;
         }
 
         .model-controls button:hover {
@@ -125,70 +128,6 @@
             border-color: rgba(255, 255, 255, 0.2);
         }
 
-        .model-switch {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 100;
-            background: rgba(33, 33, 33, 0.8);
-            padding: 12px;
-            border-radius: 8px;
-            backdrop-filter: blur(8px);
-        }
-
-        .model-switch button {
-            background: #333333;
-            color: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 16px;
-            width: 48px;
-            height: 48px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .model-switch button:hover {
-            background: #444444;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .model-switch button:active {
-            transform: translateY(1px);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-        }
-
-        .model-switch button::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 8px;
-            transform: translateX(-50%);
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #666;
-            transition: all 0.2s ease;
-        }
-
-        .loader {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #b3b3b3;
-            font-size: 1.2rem;
-        }
 
         .model-controls button:active {
             transform: translateY(1px);
@@ -198,7 +137,7 @@
         .model-controls button::before {
             content: '';
             position: absolute;
-            left: 12px;
+            left: 8px;
             width: 8px;
             height: 8px;
             border-radius: 50%;
@@ -211,12 +150,22 @@
             box-shadow: 0 0 8px #5aacc7;
         }
 
-        .model-controls button[id="toggleWireframe"].active::before {
-            background: #5aacc7;
-            box-shadow: 0 0 8px #5aacc7;
+        .model-controls button.Light1::before {
+            background: #e9ffa2;
+            box-shadow: 0 0 8px #e9ffa2;
         }
 
-        .model-controls button[id="toggleDetails"].active::before {
+        .model-controls button.Light2::before {
+            background: #e7933a;
+            box-shadow: 0 0 8px #e7933a;
+        }
+
+        .model-controls button.female::before {
+            background: #d95fb9;
+            box-shadow: 0 0 8px #d95fb9;
+        }
+
+        .model-controls button.male::before {
             background: #5aacc7;
             box-shadow: 0 0 8px #5aacc7;
         }
@@ -228,11 +177,10 @@
         <div id="modelContainer">
             <div class="model-controls">
                 <button id="toggleWireframe" class="active">Mesh</button>
-                <button id="toggleLight1">Light 1</button>
-                <button id="toggleLight2">Light 2</button>
+                <button id="toggleLight" class="Light1">Light 1</button>
+                <button id="switchModel" class="male">Model</button>
             </div>
             <div class="model-switch">
-                <button id="switchModel">Switch Model</button>
             </div>
             <canvas id="modelCanvas"></canvas>
             <div class="loader">Loading model...</div>
@@ -253,14 +201,18 @@
             "three/examples/jsm/": "https://unpkg.com/three@0.160.0/examples/jsm/"
         }
     }
-    </script>
+</script>
 
     <script type="module">
         import * as THREE from 'three';
         import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
+        let currentModel = null;
+        let wireframeMeshes = [];
+        let currentModelType = 'male';
         let isWireframeVisible = true;
+        let currentLightMode = true;
 
         const lightingPresets = {
             male: {
@@ -339,9 +291,6 @@
         controls.minDistance = 7;
         controls.maxDistance = 20;
 
-        let currentModel = null;
-        let wireframeMeshes = [];
-        let currentModelType = 'male';
 
         function loadModel(modelPath) {
             const loader = new FBXLoader();
@@ -373,7 +322,7 @@
                             wireframe.matrix = child.matrix;
                             wireframe.matrixWorld = child.matrixWorld;
                             wireframe.matrixAutoUpdate = false;
-                            wireframe.visible = isWireframeVisible; // Use the tracked state
+                            wireframe.visible = isWireframeVisible;
 
                             wireframeMeshes.push(wireframe);
                             scene.add(wireframe);
@@ -469,25 +418,22 @@
             e.target.classList.toggle('active');
         });
 
-        document.getElementById('toggleLight1').addEventListener('click', (e) => {
-            const preset = currentModelType === 'male' ?
-                lightingPresets.male.preset1 :
-                lightingPresets.female.preset1;
-            applyLightingPreset(preset);
+        document.getElementById('toggleLight').addEventListener('click', (e) => {
+            const lightButton = e.target;
+            lightButton.textContent = currentLightMode ? 'Light 2' : 'Light 1';
 
-            document.getElementById('toggleLight2').classList.remove('active');
-            e.target.classList.add('active');
+            lightButton.classList.remove('Light1', 'Light2');
+            lightButton.classList.add(currentLightMode ? 'Light2' : 'Light1');
+
+            currentLightMode = !currentLightMode;
+
+            const preset = currentModelType === 'male'
+                ? (currentLightMode ? lightingPresets.male.preset1 : lightingPresets.male.preset2)
+                : (currentLightMode ? lightingPresets.female.preset1 : lightingPresets.female.preset2);
+
+            applyLightingPreset(preset);
         });
 
-        document.getElementById('toggleLight2').addEventListener('click', (e) => {
-            const preset = currentModelType === 'male' ?
-                lightingPresets.male.preset2 :
-                lightingPresets.female.preset2;
-            applyLightingPreset(preset);
-
-            document.getElementById('toggleLight1').classList.remove('active');
-            e.target.classList.add('active');
-        });
 
         document.getElementById('switchModel').addEventListener('click', () => {
             currentModelType = currentModelType === 'male' ? 'female' : 'male';
@@ -497,8 +443,12 @@
 
             loadModel(modelPath);
 
+            const switchElement = document.getElementById('switchModel');
+            switchElement.classList.remove('male', 'female');
+            switchElement.classList.add(currentModelType);
+
             // Reset lighting to the active preset
-            const activePreset = document.getElementById('toggleLight1').classList.contains('active') ?
+            const activePreset = document.getElementById('toggleLight').classList.contains('active') ?
                 (currentModelType === 'male' ? lightingPresets.male.preset1 : lightingPresets.female.preset1) :
                 (currentModelType === 'male' ? lightingPresets.male.preset2 : lightingPresets.female.preset2);
 
@@ -526,7 +476,6 @@
 
         // Apply initial lighting preset
         applyLightingPreset(lightingPresets.male.preset1);
-        document.getElementById('toggleLight1').classList.add('active');
     </script>
 </body>
 
