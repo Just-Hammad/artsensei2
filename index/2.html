@@ -178,7 +178,7 @@
             <div class="model-controls">
                 <button id="toggleWireframe" class="active">Mesh</button>
                 <button id="toggleLight" class="Light1">Light 1</button>
-                <button id="switchModel" class="male">Model</button>
+                <button id="switchModel" class="male">Switch</button>
             </div>
             <div class="model-switch">
             </div>
@@ -201,18 +201,18 @@
             "three/examples/jsm/": "https://unpkg.com/three@0.160.0/examples/jsm/"
         }
     }
-</script>
+    </script>
 
     <script type="module">
         import * as THREE from 'three';
         import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
+        let isWireframeVisible = true;
+        let currentLightMode = true;
         let currentModel = null;
         let wireframeMeshes = [];
         let currentModelType = 'male';
-        let isWireframeVisible = true;
-        let currentLightMode = true;
 
         const lightingPresets = {
             male: {
@@ -489,25 +489,32 @@
         chatflowid: "c1058d7a-ed52-42ab-b5c9-a38bd181eb89",
         apiHost: "https://chat.artsensei.ai",
         theme: {
+            button: {
+                backgroundColor: '#3B81F6',
+                right: 20,
+                bottom: 20,
+                size: 48, // small | medium | large | number
+                dragAndDrop: true,
+                iconColor: 'white',
+                customIconSrc: 'https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/google-messages.svg',
+            },
             chatWindow: {
                 showTitle: true,
-                title: name,
+                title: `${name}`,
                 titleAvatarSrc: src,
                 showAgentMessages: false,
-                welcomeMessage: `Hi, Logan! Let’s do this!`,
+                welcomeMessage: `Hi there! Are you ready to work on drawings of trees?`,
                 errorMessage: 'Error: Please contact teacher',
                 backgroundColor: "#141414",
-                height: 700,
+                height: 500,
                 width: '100%',
-                fontSize: 16,
-                poweredByTextColor: "#f2f2f2",
+                fontSize: 12,
+                poweredByTextColor: "#b3b3b3",
                 botMessage: {
                     backgroundColor: "#212121",
-                    textColor: "#f2f2f2",
+                    textColor: "#b3b3b3",
                     showAvatar: true,
                     avatarSrc: src,
-                    maxWidth: '100%',
-                    marginRight: '60px',
                 },
                 userMessage: {
                     backgroundColor: "#333333",
@@ -518,7 +525,7 @@
                 textInput: {
                     placeholder: 'Type your question',
                     backgroundColor: '#212121',
-                    textColor: '#f2f2f2',
+                    textColor: '#b3b3b3',
                     sendButtonColor: '#3B81F6',
                     maxChars: 300,
                     maxCharsWarningMessage: 'You exceeded the characters limit. Please input less than 300 characters.',
@@ -527,10 +534,10 @@
                     boxSizing: 'border-box',
                 },
                 feedback: {
-                    color: '#f2f2f2',
+                    color: '#b3b3b3',
                 },
                 footer: {
-                    textColor: '#f2f2f2',
+                    textColor: '#b3b3b3',
                     text: 'Powered by',
                     company: 'Artsensei',
                     companyLink: 'https://artsensei.ai',
