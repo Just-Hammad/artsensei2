@@ -489,6 +489,15 @@
         chatflowid: "c1058d7a-ed52-42ab-b5c9-a38bd181eb89",
         apiHost: "https://chat.artsensei.ai",
         theme: {
+            button: {
+                backgroundColor: '#3B81F6',
+                right: 20,
+                bottom: 20,
+                size: 48, // small | medium | large | number
+                dragAndDrop: true,
+                iconColor: 'white',
+                customIconSrc: 'https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/google-messages.svg',
+            },
             chatWindow: {
                 showTitle: true,
                 title: name,
@@ -496,14 +505,14 @@
                 showAgentMessages: false,
                 welcomeMessage: `Hi, Logan! Let’s do this!`,
                 errorMessage: 'Error: Please contact teacher',
-                backgroundColor: "#212121",
-                height: 700,
-                width: '100%',
-                fontSize: 16,
-                poweredByTextColor: "#b3b3b3",
+                backgroundColor: "#141414",
+                height: 600,
+                width: "100%",
+                fontSize: 12,
+                poweredByTextColor: "#f2f2f2",
                 botMessage: {
                     backgroundColor: "#212121",
-                    textColor: "#b3b3b3",
+                    textColor: "#f2f2f2",
                     showAvatar: true,
                     avatarSrc: src,
                     maxWidth: '100%',
@@ -518,7 +527,7 @@
                 textInput: {
                     placeholder: 'Type your question',
                     backgroundColor: '#212121',
-                    textColor: '#b3b3b3',
+                    textColor: '#f2f2f2',
                     sendButtonColor: '#3B81F6',
                     maxChars: 300,
                     maxCharsWarningMessage: 'You exceeded the characters limit. Please input less than 300 characters.',
@@ -527,10 +536,10 @@
                     boxSizing: 'border-box',
                 },
                 feedback: {
-                    color: '#b3b3b3',
+                    color: '#f2f2f2',
                 },
                 footer: {
-                    textColor: '#b3b3b3',
+                    textColor: '#f2f2f2',
                     text: 'Powered by',
                     company: 'Artsensei',
                     companyLink: 'https://artsensei.ai',
