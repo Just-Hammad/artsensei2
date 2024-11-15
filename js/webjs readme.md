@@ -53,3 +53,45 @@ Code snippet: (Line 1912)
                 l !== t._v$2 && le(o, "src", t._v$2 = l),
                 t
             }
+
+
+Timestamp : 15/11/2024 07:53PM
+Change:
+added: Claude Font from calude.ai
+
+Code snippet: (Line 10)
+
+const claudeNormal = new FontFace(
+  'ClaudeFont',
+  'url(https://claude.ai/_next/static/media/8dd98daf4ff6e30f-s.p.woff2) format("woff2")',
+  { weight: '400', style: 'normal' }
+);
+
+const claudeItalic = new FontFace(
+  'ClaudeFont',
+  'url(https://claude.ai/_next/static/media/d321f86573f8f5ee-s.p.woff2) format("woff2")',
+  { weight: '400', style: 'italic' }
+);
+
+Promise.all([claudeNormal.load(), claudeItalic.load()])
+  .then(fonts => {
+    fonts.forEach(font => document.fonts.add(font));
+    document.body.style.fontFamily = 'ClaudeFont, sans-serif';
+  })
+  .catch(error => {
+    console.error('Failed to load the fonts:', error);
+  });
+
+
+
+
+Timestamp : 15/11/2024 08:19PM
+Change:
+added: Claude Font from calude.ai
+
+Code snippet: (Line 7376)
+Added:
+    calude-font !important
+
+
+

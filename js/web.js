@@ -1,6 +1,39 @@
 import Compress from "https://cdn.jsdelivr.net/npm/compress.js@2.1.2/build/compress.min.js";
 const compressor = new Compress();
 
+
+const claudeNormal = new FontFace(
+    'ClaudeFont',
+    'url(https://claude.ai/_next/static/media/8dd98daf4ff6e30f-s.p.woff2) format("woff2")',
+    { weight: '400', style: 'normal' }
+  );
+  
+const claudeItalic = new FontFace(
+    'ClaudeFont',
+    'url(https://claude.ai/_next/static/media/d321f86573f8f5ee-s.p.woff2) format("woff2")',
+    { weight: '400', style: 'italic' }
+  );
+  
+  Promise.all([claudeNormal.load(), claudeItalic.load()])
+    .then(fonts => {
+      fonts.forEach(font => document.fonts.add(font));
+      document.body.style.fontFamily = 'ClaudeFont, sans-serif';
+    })
+    .catch(error => {
+      console.error('Failed to load the fonts:', error);
+    });
+
+const styleTag = document.createElement('style');
+
+styleTag.textContent = `
+  .claude-font {
+    font-family: ClaudeFont, sans-serif;
+  }
+`;
+
+document.head.appendChild(styleTag);
+
+
 async function compressImage(file) {
   try {
     const compressedFile = await compressor.compress(file, {
@@ -7340,7 +7373,7 @@ te('<div class="flex items-center justify-center p-0 m-0"><img class="w-full h-f
   , Ho = te('<div><div class="flex flex-row justify-start mb-2 items-start host-container"><div class="flex flex-col justify-start"></div></div><div></div><div>')
   , Ko = te('<details class="mb-2 px-4 py-2 ml-2 chatbot-host-bubble rounded-[6px]"><summary class="cursor-pointer"><span class="italic">Agent Messages</span></summary><br>')
   , Wo = te('<div class="flex flex-row items-start flex-wrap w-full gap-2">')
-  , Zo = te('<span class="px-4 py-2 ml-2 max-w-full chatbot-host-bubble prose" data-testid="host-bubble">')
+  , Zo = te('<span class="calude-font !important px-4 py-2 ml-2 max-w-full chatbot-host-bubble prose" data-testid="host-bubble">')
   , Qo = te('<div class="px-4 py-2 flex flex-row justify-start space-x-2">')
   , zo = te('<button type="button" class="px-4 py-2 font-medium text-green-600 border border-green-600 rounded-full hover:bg-green-600 hover:text-white transition-colors duration-300 flex items-center space-x-2">&nbsp;')
   , Yo = te('<button type="button" class="px-4 py-2 font-medium text-red-600 border border-red-600 rounded-full hover:bg-red-600 hover:text-white transition-colors duration-300 flex items-center space-x-2">&nbsp;')
