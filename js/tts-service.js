@@ -51,10 +51,19 @@ function startObservingChat() {
 
 async function sendTextToServer(text) {
     const voiceAppApiUrl = 'https://voice.artsensei.ai/generate-audio';
+    // Get the voice ID from the select element
     const voiceId = document.getElementById('voiceId').value;
     
+    if (!voiceId) {
+        console.error('No voice ID selected!');
+        return;
+    }
+
     if (SoundOn) {
         try {
+            // Log the request payload for debugging
+            console.log('Sending request with voice_id:', voiceId);
+            
             const response = await fetch(voiceAppApiUrl, {
                 method: 'POST',
                 headers: {
@@ -72,13 +81,15 @@ async function sendTextToServer(text) {
             });
 
             if (!response.ok) {
-                console.error('Error generating audio from server:', await response.json());
+                const errorData = await response.json();
+                console.error('Error generating audio from server:', errorData);
                 return;
             }
 
             const audioUrl = URL.createObjectURL(await response.blob());
             currentAudio.src = audioUrl;
-            currentAudio.play();
+            await currentAudio.play();
+            
             currentAudio.onended = () => {
                 console.log('Audio finished playing.');
                 URL.revokeObjectURL(audioUrl);

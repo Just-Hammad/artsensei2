@@ -1,46 +1,10 @@
 const express = require('express');
-const { ElevenLabsClient } = require('elevenlabs');
-
 const app = express();
 const port = 9090;
 
 app.use(express.json());
 
-const elevenlabs = new ElevenLabsClient({
-  apiKey: "" // Make sure to replace this with your actual API key
-});
-
-app.post('/text-to-speech/:voice_id', async (req, res) => {
-  try {
-    const voice_id = req.params.voice_id;
-    const { text, model_id, voice_settings } = req.body;
-
-    if (!text) {
-      return res.status(400).json({ error: 'Text is required!' });
-    }
-
-    const audioStream = await elevenlabs.generate({
-      text,
-      voice_id,
-      model_id,
-      voice_settings
-    });
-
-    res.setHeader('Content-Type', 'audio/mpeg');
-
-    audioStream.pipe(res);
-
-    audioStream.on('end', () => {
-      console.log('Audio stream ended');
-    });
-
-  } catch (error) {
-    console.error('Error generating audio:', error);
-    res.status(500).json({ error: 'Error generating audio.' });
-  }
-});
-
-// Enable CORS for development
+// Enable CORS
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -51,11 +15,55 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use((req, res) => {
-  res.status(404).send(''); // Respond with a 404 for all other requests
+app.post('/generate-audio', async (req, res) => {
+  try {
+    const { text, voice_id, model_id, voice_settings } = req.body;
+    const elevenLabsApiUrl = 'https://api.elevenlabs.io/v1/text-to-speech';
+    const elevenLabsApiKey = process.env.ELEVENLABS_API_KEY;
+
+    if (!text || !voice_id) {
+      return res.status(400).json({ error: 'Text and voice_id are required!' });
+    }
+
+    const response = await fetch(`${elevenLabsApiUrl}/${voice_id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'xi-api-key': elevenLabsApiKey,
+      },
+      body: JSON.stringify({
+        text,
+        model_id,
+        voice_settings
+      }),
+    });
+
+    console.log(`${elevenLabsApiUrl}/${voice_id}`);
+    console.log(JSON.stringify({
+      text,
+      model_id,
+      voice_settings
+    }));
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('ElevenLabs API error:', errorData);
+      return res.status(response.status).json(errorData);
+    }
+
+    // Get the audio content from ElevenLabs
+    const audioBuffer = await response.arrayBuffer();
+
+    // Set appropriate headers
+    res.setHeader('Content-Type', 'audio/mpeg');
+    res.send(Buffer.from(audioBuffer));
+
+  } catch (error) {
+    console.error('Error generating audio:', error);
+    res.status(500).json({ error: 'Error generating audio.' });
+  }
 });
 
-// Start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
