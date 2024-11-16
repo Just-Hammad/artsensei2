@@ -50,43 +50,42 @@ function startObservingChat() {
 }
 
 async function sendTextToServer(text) {
-    const elevenLabsApiKey = '';
-    const elevenLabsApiUrl = 'https://api.elevenlabs.io/v1/text-to-speech';
+    const voiceAppApiUrl = 'http://voice.artsensei.ai/generate-audio';
     const voiceId = document.getElementById('voiceId').value;
+    
     if (SoundOn) {
         try {
-            const response = await fetch(`${elevenLabsApiUrl}/${voiceId}`, {
+            const response = await fetch(voiceAppApiUrl, {
                 method: 'POST',
                 headers: {
-                  'Content-Type': 'application/json',
-                  'xi-api-key': elevenLabsApiKey,
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                  text,
-                  model_id: 'eleven_turbo_v2_5',
-                  voice_settings: {
-                    stability: 0.5,
-                    similarity_boost: 0.75
-                  }
+                    text, // Text from the chatbot bubble
+                    voice: 'Rachel', // Or get the voice dynamically as required
+                    voice_id: voiceId,
                 }),
-              });
-        if (!response.ok) {
-            console.error('Error generating audio from server:', response.json);
-            return;
-        }
-        const audioUrl = URL.createObjectURL(await response.blob());
-        currentAudio.src = audioUrl
-        currentAudio.play();
-        currentAudio.onended = () => {
-            console.log('Audio finished playing.');
-        };
+            });
+
+            if (!response.ok) {
+                console.error('Error generating audio from server:', await response.json());
+                return;
+            }
+
+            const audioUrl = URL.createObjectURL(await response.blob());
+            currentAudio.src = audioUrl;
+            currentAudio.play();
+            currentAudio.onended = () => {
+                console.log('Audio finished playing.');
+            };
         } catch (error) {
-        console.error('Error sending text to server or playing audio:', error);
+            console.error('Error sending text to server or playing audio:', error);
         }
     } else {
-        console.log("Muted: Audio processing skipped!")
+        console.log("Muted: Audio processing skipped!");
     }
 }
+
 
 function startObservingButton(){
     var button = document.querySelector('flowise-chatbot').shadowRoot.querySelector('button[part="button"]');
