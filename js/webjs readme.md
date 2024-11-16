@@ -84,7 +84,7 @@ Promise.all([claudeNormal.load(), claudeItalic.load()])
 
 
 
-
+// Change reverted
 Timestamp : 15/11/2024 08:19PM
 Change:
 added: Claude Font from calude.ai
@@ -93,3 +93,6 @@ Code snippet: (Line 1671)
 
   , Er = te('<div class="w-full h-auto max-h-[192px] min-h-[56px] flex flex-col items-end justify-between chatbot-input border border-[#eeeeee]" data-testid="input"><div class="w-full flex items-end justify-between">')
   , Er = te('<div class="w-full h-auto max-h-[192px] min-h-[56px] flex flex-col items-end justify-between chatbot-input border border-[#eeeeee]" data-testid="input" style="box-sizing: border-box; width: 100%;"><div class="w-full flex items-end justify-between" style="box-sizing: border-box;"></div>')
+
+
+  
