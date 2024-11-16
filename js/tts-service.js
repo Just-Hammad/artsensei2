@@ -55,7 +55,7 @@ async function sendTextToServer(text) {
     
     if (SoundOn) {
         try {
-            const response = await fetch(`${voiceAppApiUrl}/${voiceId}`, {
+            const response = await fetch(`${voiceAppApiUrl}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
