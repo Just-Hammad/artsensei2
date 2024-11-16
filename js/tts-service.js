@@ -50,20 +50,23 @@ function startObservingChat() {
 }
 
 async function sendTextToServer(text) {
-    const voiceAppApiUrl = 'https://voice.artsensei.ai/generate-audio';
+    const voiceAppApiUrl = 'https://voice.artsensei.ai/text-to-speech';
     const voiceId = document.getElementById('voiceId').value;
     
     if (SoundOn) {
         try {
-            const response = await fetch(voiceAppApiUrl, {
+            const response = await fetch(`${voiceAppApiUrl}/${voiceId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    text, // Text from the chatbot bubble
-                    voice: 'Rachel', // Or get the voice dynamically as required
-                    voice_id: voiceId,
+                    text,
+                    model_id: 'eleven_turbo_v2_5',
+                    voice_settings: {
+                        stability: 0.5,
+                        similarity_boost: 0.75
+                    }
                 }),
             });
 
@@ -77,6 +80,7 @@ async function sendTextToServer(text) {
             currentAudio.play();
             currentAudio.onended = () => {
                 console.log('Audio finished playing.');
+                URL.revokeObjectURL(audioUrl); // Clean up the blob URL
             };
         } catch (error) {
             console.error('Error sending text to server or playing audio:', error);

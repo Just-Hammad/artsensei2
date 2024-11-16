@@ -10,20 +10,20 @@ const elevenlabs = new ElevenLabsClient({
   apiKey: "" // Make sure to replace this with your actual API key
 });
 
-app.post('/generate-audio', async (req, res) => {
+app.post('/text-to-speech/:voice_id', async (req, res) => {
   try {
-    const { text, voice = 'Rachel', voice_id = '5vybZGXH9butYIbZLvLY' } = req.body;
+    const voice_id = req.params.voice_id;
+    const { text, model_id, voice_settings } = req.body;
 
     if (!text) {
       return res.status(400).json({ error: 'Text is required!' });
     }
 
     const audioStream = await elevenlabs.generate({
-      stream: true,
-      voice: voice,
-      text: text,
-      voice_id: voice_id,
-      model_id: "eleven_monolingual_v1"
+      text,
+      voice_id,
+      model_id,
+      voice_settings
     });
 
     res.setHeader('Content-Type', 'audio/mpeg');
@@ -40,8 +40,19 @@ app.post('/generate-audio', async (req, res) => {
   }
 });
 
+// Enable CORS for development
 app.use((req, res, next) => {
-    res.status(404).send(''); // Respond with a 404 for all other requests
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Methods', 'POST');
+    return res.status(200).json({});
+  }
+  next();
+});
+
+app.use((req, res) => {
+  res.status(404).send(''); // Respond with a 404 for all other requests
 });
 
 // Start the server
