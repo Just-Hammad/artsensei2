@@ -55,13 +55,14 @@ async function sendTextToServer(text) {
     
     if (SoundOn) {
         try {
-            const response = await fetch(`${voiceAppApiUrl}`, {
+            const response = await fetch(voiceAppApiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     text,
+                    voice_id: voiceId,
                     model_id: 'eleven_turbo_v2_5',
                     voice_settings: {
                         stability: 0.5,
@@ -80,7 +81,7 @@ async function sendTextToServer(text) {
             currentAudio.play();
             currentAudio.onended = () => {
                 console.log('Audio finished playing.');
-                URL.revokeObjectURL(audioUrl); // Clean up the blob URL
+                URL.revokeObjectURL(audioUrl);
             };
         } catch (error) {
             console.error('Error sending text to server or playing audio:', error);
