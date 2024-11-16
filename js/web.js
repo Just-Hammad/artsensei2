@@ -8,7 +8,7 @@ const claudeNormal = new FontFace(
     { weight: '400', style: 'normal' }
   );
   
-  const claudeItalic = new FontFace(
+const claudeItalic = new FontFace(
     'ClaudeFont',
     'url(/fonts/d321f86573f8f5ee-s.p.woff2) format("woff2")',
     { weight: '400', style: 'italic' }
@@ -18,18 +18,20 @@ const claudeNormal = new FontFace(
     .then(fonts => {
       fonts.forEach(font => document.fonts.add(font));
       document.body.style.fontFamily = 'ClaudeFont, sans-serif';
-  
-      const styleTag = document.createElement('style');
-      styleTag.textContent = `
-        .claude-font {
-          font-family: ClaudeFont, sans-serif;
-        }
-      `;
-      document.head.appendChild(styleTag);
     })
     .catch(error => {
       console.error('Failed to load the fonts:', error);
     });
+
+const styleTag = document.createElement('style');
+
+styleTag.textContent = `
+  .claude-font {
+    font-family: ClaudeFont, sans-serif;
+  }
+`;
+
+document.head.appendChild(styleTag);
 
 
 async function compressImage(file) {
@@ -1668,7 +1670,7 @@ M())
 }
   , Cr = te('<div class="w-full px-4 pt-4 pb-1 text-red-500 text-sm" data-testid="warning-message">')
   , Br = te("<span>Send")
-  , Er = te('<div class="w-full h-auto max-h-[192px] min-h-[56px] flex flex-col items-end justify-between chatbot-input border border-[#eeeeee]" data-testid="input"><div class="w-full flex items-end justify-between">')
+  , Er = te('<div class="w-full h-auto max-h-[192px] min-h-[56px] flex flex-col items-end justify-between chatbot-input border border-[#eeeeee]" data-testid="input" style="box-sizing: border-box; width: 100%;"><div class="w-full flex items-end justify-between" style="box-sizing: border-box;"></div>')
   , Nr = te("<span>Image Upload")
   , Or = te('<input multiple type="file">')
   , Ir = te("<span>File Upload")
@@ -1745,8 +1747,7 @@ M())
                 "on:click": u,
                 get children() {
                     var e = Nr();
-                    return e.style.setProperty("font-family", "ClaudeFont, sans-serif");
-
+                    return e.style.setProperty("font-family", "Poppins, sans-serif"),
                     e
                 }
             }), ( () => {
@@ -1774,7 +1775,7 @@ M())
                 "on:click": p,
                 get children() {
                     var e = Ir();
-                    return e.style.setProperty("font-family", "ClaudeFont, sans-serif");
+                    return e.style.setProperty("font-family", "Poppins, sans-serif"),
                     e
                 }
             }), ( () => {
@@ -1826,7 +1827,7 @@ M())
                 },
                 get children() {
                     var e = Xr();
-                    return e.style.setProperty("font-family", "ClaudeFont, sans-serif");
+                    return e.style.setProperty("font-family", "Poppins, sans-serif"),
                     e
                 }
             }) : null
@@ -1844,7 +1845,7 @@ M())
             "on:click": x,
             get children() {
                 var e = Br();
-                return e.style.setProperty("font-family", "ClaudeFont, sans-serif");
+                return e.style.setProperty("font-family", "Poppins, sans-serif"),
                 e
             }
         }), null),
@@ -1914,7 +1915,7 @@ te('<figure data-testid="default-avatar"><svg width="75" height="75" viewBox="0 
         const e = Vr()
           , r = e.firstChild;
         return b((o => {
-            var t = "flex justify-center items-center rounded-full text-white relative flex-shrink-0 " + (Ve() ? "w-6 h-6 text-sm" : "w-10 h-10 text-xl")
+            var t = "flex justify-center items-center rounded-full text-white relative flex-shrink-0 " + (Ve() ? "w-3 h-3 text-sm" : "w-6 h-6 text-xl")
               , a = "absolute top-0 left-0 " + (Ve() ? " w-6 h-6 text-sm" : "w-full h-full text-xl");
             return t !== o._v$ && ie(e, o._v$ = t),
             a !== o._v$2 && le(r, "class", o._v$2 = a),
@@ -1946,7 +1947,7 @@ te('<figure data-testid="default-avatar"><svg width="75" height="75" viewBox="0 
             const e = Hr()
               , o = e.firstChild;
             return b((t => {
-                var a = "flex justify-center items-center rounded-full text-white relative flex-shrink-0 " + (Ve() ? "w-6 h-6 text-sm" : "w-10 h-10 text-xl")
+                var a = "flex justify-center items-center rounded-full text-white relative flex-shrink-0 " + (Ve() ? "w-3 h-3 text-sm" : "w-6 h-6 text-xl")
                   , l = r();
                 return a !== t._v$ && ie(e, t._v$ = a),
                 l !== t._v$2 && le(o, "src", t._v$2 = l),
@@ -7372,7 +7373,7 @@ te('<div class="flex items-center justify-center p-0 m-0"><img class="w-full h-f
   , Ho = te('<div><div class="flex flex-row justify-start mb-2 items-start host-container"><div class="flex flex-col justify-start"></div></div><div></div><div>')
   , Ko = te('<details class="mb-2 px-4 py-2 ml-2 chatbot-host-bubble rounded-[6px]"><summary class="cursor-pointer"><span class="italic">Agent Messages</span></summary><br>')
   , Wo = te('<div class="flex flex-row items-start flex-wrap w-full gap-2">')
-  , Zo = te('<span class="claude-font !important px-4 py-2 ml-2 max-w-full chatbot-host-bubble prose" data-testid="host-bubble">')
+  , Zo = te('<span class="px-4 py-2 ml-2 max-w-full chatbot-host-bubble prose" data-testid="host-bubble">')
   , Qo = te('<div class="px-4 py-2 flex flex-row justify-start space-x-2">')
   , zo = te('<button type="button" class="px-4 py-2 font-medium text-green-600 border border-green-600 rounded-full hover:bg-green-600 hover:text-white transition-colors duration-300 flex items-center space-x-2">&nbsp;')
   , Yo = te('<button type="button" class="px-4 py-2 font-medium text-red-600 border border-red-600 rounded-full hover:bg-red-600 hover:text-white transition-colors duration-300 flex items-center space-x-2">&nbsp;')
@@ -48883,7 +48884,7 @@ const fd = te('<span class="flex items-center gap-2">Saving...')
             },
             get children() {
                 var e = yd();
-                return e.style.setProperty("font-family", "ClaudeFont, sans-serif");
+                return e.style.setProperty("font-family", "Poppins, sans-serif"),
                 e
             }
         })
@@ -50030,7 +50031,7 @@ const Kd = te('<button class="group w-12 h-12 flex items-center justify-center r
                         "on:click": ve,
                         get children() {
                             var e = os();
-                            return e.style.setProperty("font-family", "ClaudeFont, sans-serif");
+                            return e.style.setProperty("font-family", "Poppins, sans-serif"),
                             e
                         }
                     }), null),
@@ -50323,8 +50324,7 @@ const Kd = te('<button class="group w-12 h-12 flex items-center justify-center r
                             "on:click": Ge,
                             get children() {
                                 var e = ls();
-                                return e.style.setProperty("font-family", "ClaudeFont, sans-serif");
-
+                                return e.style.setProperty("font-family", "Poppins, sans-serif"),
                                 e
                             }
                         }), null),
@@ -50340,8 +50340,7 @@ const Kd = te('<button class="group w-12 h-12 flex items-center justify-center r
                             "on:click": Le,
                             get children() {
                                 var e = ls();
-                                return e.style.setProperty("font-family", "ClaudeFont, sans-serif");
-
+                                return e.style.setProperty("font-family", "Poppins, sans-serif"),
                                 e
                             }
                         }), null),
