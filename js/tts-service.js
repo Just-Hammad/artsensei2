@@ -50,7 +50,7 @@ function startObservingChat() {
 }
 
 async function sendTextToServer(text) {
-    const voiceAppApiUrl = 'https://voice.artsensei.ai/text-to-speech';
+    const voiceAppApiUrl = 'https://voice.artsensei.ai/generate-audio';
     const voiceId = document.getElementById('voiceId').value;
     
     if (SoundOn) {
