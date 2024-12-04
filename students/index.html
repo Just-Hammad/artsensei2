@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtSensei</title>
+    <link rel="icon" type="image/x-icon" href="../Cathy.ico">
+    <link rel="preload" href="../css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="../css/styles.css">
+    </noscript>
+    <!-- Rest of your existing head content -->
+</head>
+<body>
+    <!-- Your existing model container and other content -->
+    <div class="container">
+        <!-- ... -->
+    </div>
+
+    <!-- Your existing scripts -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+                "three/examples/jsm/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <!-- Your 3D model script -->
+    <script type="module">
+        // Your existing Three.js code
+    </script>
+
+    <!-- Modified chatbot initialization -->
+    <script type="module">
+        import Chatbot from "../js/web.js";
+        import { CHATBOT_CONFIGS, createChatbotConfig } from "../students/config.js";
+        
+        // Change this line for each subdomain
+        const CHARACTER_ID = "logan"; // Change to "cassidy", "gollum", etc. for other subdomains
+        
+        const config = createChatbotConfig(CHATBOT_CONFIGS[CHARACTER_ID]);
+        if (config) {
+            Chatbot.init(config);
+        }
+    </script>
+
+    <script src="../js/log-errors.js" defer></script>
+    <script src="../js/override-chatbot-styles.js" defer></script>
+    <script src="../js/tts-service.js" defer></script>
+</body>
+</html>
