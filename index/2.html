@@ -11,19 +11,23 @@
         <link rel="stylesheet" href="../css/styles.css">
     </noscript>
     <style>
-
         html {
             overflow: hidden;
+            height: 100vh;
+            max-height: 100vh;
         }
+
         body {
             margin: 0;
             height: 100vh;
+            max-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             font-family: 'Poppins', sans-serif;
             background-color: #212121;
-            overflow: hidden; /* Prevent scrolling */
+            overflow: hidden;
+            /* Prevent scrolling */
         }
 
         .container {
@@ -83,18 +87,17 @@
         }
 
         .model-controls {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            z-index: 100;
-            background: rgba(33, 33, 33, 0.8);
-            padding: 8px;
-            border-radius: 8px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(33, 33, 33, 0.95);
+            padding: 10px 16px;
             display: flex;
-            flex-wrap: nowrap;
             gap: 8px;
-            max-width: calc(100% - 24px);
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .model-controls button {
@@ -483,8 +486,8 @@
 
 
 <script type="module">
-        const name = "Alex";
-        const src = `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`;
+    const name = "Alex";
+    const src = `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`;
 
     import Chatbot from "../js/web2.js";
     Chatbot.init({
@@ -537,7 +540,7 @@
 </div>
 Do you want help on specific features?
 `,
-    errorMessage: 'Error: Please contact teacher',
+                errorMessage: 'Error: Please contact teacher',
                 backgroundColor: "#141414",
                 height: 700,
                 width: 400,
