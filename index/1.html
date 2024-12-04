@@ -1,162 +1,399 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ArtSensei</title>
-    <link rel="icon" type="image/x-icon" href="../Cathy.ico">
-    <link rel="preload" href="../css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="../css/styles.css"></noscript>
-    <style>
-        /* Basic CSS to center the text horizontally and add padding to the top */ 
-        body {
-            margin-top: 20px;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-family: 'Poppins', sans-serif; /* Sans-serif for the title */
-        }
-
-        img {
-            max-width: 80%; /* Responsive size for the image */
-            height: auto; /* Keep aspect ratio */
-            border-radius: 10px; /* Rounded corners for the image */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-        }
-
-        h2 {
-            margin-top: 20px; /* Space between the image and the title */
-            margin-bottom: 10px; /* Space between title and subtext */
-            font-size: 3rem; /* Large font size */
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .subtext {
-            margin-top: 0; /* Remove margin between lines */
-            font-size: 1.3rem; /* Slightly smaller font */
-            color: #000; /* Mid-grey color */
-            font-weight: normal;
-            text-align: center;
-        }
-
-        #logContainer {
-            max-height: 300px;
-            min-height: 100px; /* Ensure a minimum height */
-            overflow-y: auto;
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-top: 20px;
-            font-family: monospace;
-            background-color: #f9f9f9;
-            white-space: pre-wrap;
-        }
-
-        .bodytext {
-            margin: 0 52px 20px 52px; /* Margin around the body text */
-            font-size: 1.1rem; /* Font size */
-            line-height: 1.3em;
-            color: #4a4a4a; /* Mid-grey color */
-            font-weight: normal;
-            text-align: left;
-            font-family: 'Lora', serif; /* Serif font for the body text */
-            max-width: 900px;
-            min-height: 100px; /* Adjust based on expected content */
-        }
-
-        .log { color: black; }
-        .warn { color: orange; }
-        .error { color: red; }
-
-        /* Styling the chatbot container */
-        flowise-chatbot {
-            margin-top: 20px; /* Space between the text and the chatbot */
-        }
-
-        /* Centering and maintaining layout */
-        .max-width {
-            max-width: 1200px;
-            margin: 0 auto; /* Centers the container */
-        }
-    </style>
-</head>
-<body>
-
-    <img id="artImage" alt="Art Image" width="320" height="370">
-    <h2 id="senseiName"></h2>
-    <input type="hidden" id="voiceId" value="F0yTXVI2WXEIiShs00dR">
-    <p class="subtext">Lesson: The Anatomy of Trees</p>
-    <div style="display: none;" id="logContainer"></div>
-    <div class="max-width">
-        <p class="bodytext">
-            1111111111111111111111111111111111111111111111111111111111111111
-        </p>
-    </div>
-
-    <script type="module">
-        const name = "Alex";
-        document.getElementById("artImage").src = `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`;
-        document.getElementById("senseiName").textContent = `${name}`;
-
-        import Chatbot from "https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@8ea1acf3f2ecd92f082d726fcd9b629fdd8496ba/js/webmin.js";
-        Chatbot.init({
-            chatflowid: "173d224f-bf93-46d4-8fcc-fd68d3193158",
-            apiHost: "https://chat.artsensei.ai",
+    <title>OCR Document Processor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
             theme: {
-                chatWindow: {
-                    showTitle: true,
-                    title: `${name}`,
-                    titleAvatarSrc: `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`,
-                    showAgentMessages: false,
-                    welcomeMessage: `Hi there! Are you ready to work on drawings of trees?`,
-                    errorMessage: 'Error: Please contact teacher',
-                    backgroundColor: "#212121",
-                    height: 700,
-                    width: '100%',
-                    fontSize: 16,
-                    poweredByTextColor: "#b3b3b3",
-                    botMessage: {
-                        backgroundColor: "#212121",
-                        textColor: "#b3b3b3",
-                        showAvatar: true,
-                        avatarSrc: `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`,
-                        maxWidth: '100%',
-                        marginRight: '60px',
-                    },
-                    userMessage: {
-                        backgroundColor: "#333333",
-                        textColor: "#ffffff",
-                        showAvatar: false,
-                        avatarSrc: "https://raw.githubusercontent.com/zahidkhawaja/langchain-chat-nextjs/main/public/usericon.png",
-                    },
-                    textInput: {
-                        placeholder: 'Type your question',
-                        backgroundColor: '#212121',
-                        textColor: '#b3b3b3',
-                        sendButtonColor: '#3B81F6',
-                        maxChars: 300,
-                        maxCharsWarningMessage: 'You exceeded the characters limit. Please input less than 300 characters.',
-                        autoFocus: true,
-                        width: '100%',
-                        boxSizing: 'border-box',
-                    },
-                    feedback: {
-                        color: '#b3b3b3',
-                    },
-                    footer: {
-                        textColor: '#b3b3b3',
-                        text: 'Powered by',
-                        company: 'Artsensei',
-                        companyLink: 'https://artsensei.ai',
+                extend: {
+                    colors: {
+                        primary: {
+                            light: '#3B82F6',
+                            dark: '#2563EB'
+                        },
+                        secondary: {
+                            light: '#10B981',
+                            dark: '#059669'
+                        }
                     }
                 }
             }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        .drag-over {
+            border-color: #3B82F6 !important;
+            background-color: rgba(59, 130, 246, 0.1) !important;
+        }
+
+        .drag-over i {
+            color: #3B82F6 !important;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+    <div class="container mx-auto px-4 py-8 flex-grow">
+        <!-- Dark Mode Toggle -->
+        <div class="flex justify-end mb-4">
+            <button id="darkModeToggle"
+                class="p-2 rounded-full bg-white dark:bg-gray-700 shadow-md hover:shadow-lg transition-all">
+                <i id="darkModeIcon" class="fas fa-moon dark:text-yellow-400 text-gray-700 text-xl"></i>
+            </button>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+            <!-- Sidebar -->
+            <div class="md:col-span-1">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                    <h2 class="text-2xl font-bold mb-4 flex items-center">
+                        <i class="fas fa-file-upload mr-3 text-blue-500"></i>
+                        Document Upload
+                    </h2>
+
+                    <div class="space-y-4">
+                        <!-- File Upload -->
+                        <div>
+                            <label class="block mb-2">Select Document</label>
+                            <div id="dropArea" class="relative">
+                                <input type="file" id="fileInput" class="absolute inset-0 opacity-0 cursor-pointer z-50"
+                                    accept=".pdf,.jpg,.jpeg,.png,.bmp" />
+                                <div id="dropZone"
+                                    class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4 text-center hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300 ease-in-out">
+                                    <i id="uploadIcon"
+                                        class="fas fa-cloud-upload-alt text-4xl text-gray-400 dark:text-gray-500 mb-2 transition-all duration-300"></i>
+                                    <p class="text-gray-500 dark:text-gray-400 transition-all duration-300">Drag & Drop
+                                        or Click to Upload</p>
+                                </div>
+                            </div>
+                            <p id="fileName" class="text-sm mt-2 text-center text-gray-600 dark:text-gray-300"></p>
+                        </div>
+
+                        <!-- Processing Options -->
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block mb-2">Chunk Size</label>
+                                <input type="number" id="chunkSize"
+                                    class="w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600"
+                                    value="500" placeholder="Chunk size">
+                            </div>
+                            <div>
+                                <label class="block mb-2">Chunk Overlap</label>
+                                <input type="number" id="chunkOverlap"
+                                    class="w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600"
+                                    value="100" placeholder="Chunk overlap">
+                            </div>
+                            <div>
+                                <label class="block mb-2">Separators</label>
+                                <input type="text" id="separators"
+                                    class="w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600"
+                                    placeholder="Optional separators">
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex space-x-4">
+                            <button id="processBtn"
+                                class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+                                disabled>
+                                <i class="fas fa-cogs mr-2"></i>Process
+                            </button>
+                            <button id="uploadBtn"
+                                class="w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+                                disabled>
+                                <i class="fas fa-cloud-upload-alt mr-2"></i>Upload
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="md:col-span-2 space-y-6">
+                <!-- OCR Text Area -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-bold flex items-center">
+                            <i class="fas fa-file-alt mr-3 text-blue-500"></i>
+                            OCR Text
+                        </h2>
+                        <div class="w-1/2 bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
+                            <div id="progressBar"
+                                class="bg-blue-500 h-full rounded-full transition-all duration-500 ease-in-out"
+                                style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <textarea id="textArea"
+                        class="w-full h-64 p-4 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600 resize-none"
+                        placeholder="OCR extracted text will appear here..."></textarea>
+                </div>
+
+                <!-- Logs -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                    <h2 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fas fa-terminal mr-3 text-green-500"></i>
+                        Application Logs
+                    </h2>
+                    <textarea id="logArea"
+                        class="w-full h-64 p-4 bg-gray-900 text-green-400 font-mono text-sm rounded-lg resize-none"
+                        readonly></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeIcon = document.getElementById('darkModeIcon');
+
+        // Initialize dark mode based on system preference or previous setting
+        const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
+        const savedDarkMode = localStorage.getItem('darkMode');
+
+        function applyDarkMode(isDark) {
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+                darkModeIcon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                document.documentElement.classList.remove('dark');
+                darkModeIcon.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+
+        // Initial dark mode setup
+        if (savedDarkMode === 'enabled' || (!savedDarkMode && prefersDarkMode.matches)) {
+            applyDarkMode(true);
+        }
+
+        // Dark mode toggle event
+        darkModeToggle.addEventListener('click', () => {
+            const isDark = !document.documentElement.classList.contains('dark');
+            applyDarkMode(isDark);
+            localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
+        });
+
+        // File Upload Handling
+        const dropArea = document.getElementById('dropArea');
+        const dropZone = document.getElementById('dropZone');
+        const uploadIcon = document.getElementById('uploadIcon');
+        const fileInput = document.getElementById('fileInput');
+        const fileName = document.getElementById('fileName');
+        const processBtn = document.getElementById('processBtn');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const textArea = document.getElementById('textArea');
+        const logArea = document.getElementById('logArea');
+        const progressBar = document.getElementById('progressBar');
+        const chunkSizeInput = document.getElementById('chunkSize');
+        const chunkOverlapInput = document.getElementById('chunkOverlap');
+        const separatorsInput = document.getElementById('separators');
+
+        // Prevent Default Drag Behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        // Highlight drop zone when item is dragged over
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            dropZone.classList.add('drag-over');
+            uploadIcon.classList.add('scale-110');
+        }
+
+        function unhighlight(e) {
+            dropZone.classList.remove('drag-over');
+            uploadIcon.classList.remove('scale-110');
+        }
+
+        // Handle dropped files
+        dropZone.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+
+        // Handle file input selection
+        fileInput.addEventListener('change', (e) => {
+            const files = e.target.files;
+            handleFiles(files);
+        });
+
+        // Common file handling function
+        function handleFiles(files) {
+            if (files.length > 0) {
+                const file = files[0];
+                fileName.textContent = file.name;
+                processBtn.disabled = false;
+                uploadBtn.disabled = true;
+                log(`File selected: ${file.name}`);
+            }
+        }
+
+        // Logging Function
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            logArea.value += `[${timestamp}] ${message}\n`;
+            logArea.scrollTop = logArea.scrollHeight;
+        }
+
+        // Process Document
+        processBtn.addEventListener('click', async () => {
+            const file = fileInput.files[0];
+            if (!file) {
+                log('No file selected');
+                return;
+            }
+
+            processBtn.disabled = true;
+            uploadBtn.disabled = true;
+            textArea.value = '';
+            logArea.value = '';
+            progressBar.style.width = '0%';
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                log(`Starting OCR for file: ${file.name}`);
+
+                const response = await fetch('/ocr', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let fullText = '';
+                let buffer = '';
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    const chunk = decoder.decode(value);
+                    buffer += chunk;
+
+                    // Split events
+                    const events = buffer.split('\n\n');
+                    buffer = events.pop(); // Keep incomplete event in buffer
+
+                    events.forEach(event => {
+                        if (event.startsWith('data: ')) {
+                            try {
+                                const cleanedEvent = event.replace('data: ', '').trim();
+                                const data = JSON.parse(cleanedEvent);
+
+                                // Handle logging
+                                if (data.message) {
+                                    log(data.message);
+                                }
+
+                                // Handle text processing
+                                if (data.text) {
+                                    // Check if text is base64 encoded
+                                    const textToAppend = data.isBase64
+                                        ? atob(data.text)  // Decode base64
+                                        : data.text;
+
+                                    fullText = textToAppend;
+                                    textArea.value = fullText;
+                                    textArea.scrollTop = textArea.scrollHeight;
+                                }
+
+                                // Update progress bar
+                                if (data.pageNumber && data.totalPages) {
+                                    const progressPercentage = Math.min(100, (data.pageNumber / data.totalPages) * 100);
+                                    progressBar.style.width = `${progressPercentage}%`;
+                                }
+
+                                // Handle completion
+                                if (data.isComplete) {
+                                    processBtn.disabled = false;
+                                    uploadBtn.disabled = false;
+                                    progressBar.style.width = '100%';
+
+                                    if (data.error) {
+                                        log(`OCR Processing Error: ${data.error}`);
+                                    } else {
+                                        log('OCR completed successfully');
+                                    }
+                                }
+                            } catch (parseError) {
+                                // More detailed error logging
+                                log(`Error parsing event: ${parseError.message}`);
+                                log(`Problematic event string: ${event}`);
+                            }
+                        }
+                    });
+                }
+            } catch (error) {
+                log(`OCR Error: ${error.message}`);
+                processBtn.disabled = false;
+                uploadBtn.disabled = true;
+            }
+        });
+
+        // Upload Document
+        uploadBtn.addEventListener('click', async () => {
+            const extractedText = textArea.value.trim();
+            if (!extractedText) {
+                log('No text to upload. Please process the document first.');
+                return;
+            }
+
+            const chunkSize = chunkSizeInput.value;
+            const chunkOverlap = chunkOverlapInput.value;
+            const separators = separatorsInput.value;
+
+            const textFile = new Blob([extractedText], { type: 'text/plain' });
+
+            const formData = new FormData();
+            formData.append('files', textFile, 'extracted_text.txt');
+            formData.append('chunkSize', chunkSize);
+            formData.append('chunkOverlap', chunkOverlap);
+            formData.append('separators', separators);
+
+            try {
+                log(`Starting upload of extracted text as a file`);
+                log(`Chunk Size: ${chunkSize}`);
+                log(`Chunk Overlap: ${chunkOverlap}`);
+                log(`Separators: ${separators}`);
+
+                const response = await fetch('https://chat.artsensei.ai/api/v1/vector/upsert/345b2df1-2531-4efa-a604-a805f0ee1d75', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                log(`Upload completed successfully`);
+                log(`API Response: ${JSON.stringify(result, null, 2)}`);
+            } catch (error) {
+                log(`Upload Error: ${error.message}`);
+                log(`Error Stack: ${error.stack}`);
+            }
         });
     </script>
-
-    <script src="../js/log-errors.js" defer></script>
-    <script src="../js/override-chatbot-styles.js" defer></script>
-    <script src="../js/tts-service.js" defer></script>
 </body>
+
 </html>

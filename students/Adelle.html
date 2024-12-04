@@ -1,80 +1,480 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ArtSensei</title>
     <link rel="icon" type="image/x-icon" href="../Cathy.ico">
     <link rel="preload" href="../css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="../css/styles.css"></noscript>
+    <noscript>
+        <link rel="stylesheet" href="../css/styles.css">
+    </noscript>
     <style>
         body {
-            margin-top: 20px;
+            margin: 0;
             height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             font-family: 'Poppins', sans-serif;
+            background-color: #212121;
         }
-        img {
-            max-width: 80%;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
+
+        #modelContainer {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background-color: #212121;
+        }
+
+        #modelCanvas {
+            width: 100%;
+            height: 100%;
+            border: #e9ffa2;
+            border-width: 6px;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         h2 {
-            margin-top: 20px;
-            margin-bottom: 10px;
-            font-size: 3rem;
+            margin: 10px 0;
+            font-size: 2rem;
             font-weight: bold;
             text-align: center;
+            color: #b3b3b3;
         }
+
         .subtext {
-            font-size: 1.3rem;
-            color: #000;
+            font-size: 1.1rem;
+            color: #b3b3b3;
             font-weight: normal;
             text-align: center;
+            margin: 5px 0;
         }
+
         #logContainer {
-            max-height: 300px;
-            min-height: 100px;
-            overflow-y: auto;
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-top: 20px;
-            font-family: monospace;
-            background-color: #f9f9f9;
-            white-space: pre-wrap;
+            display: none;
         }
-        .bodytext {
-            margin: 0 52px 20px 52px;
-            font-size: 1.1rem;
-            line-height: 1.3em;
-            color: #4a4a4a;
-            font-family: 'Lora', serif;
-            max-width: 900px;
-            min-height: 100px;
+
+        .loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #b3b3b3;
+            font-size: 1.2rem;
         }
-        .log { color: black; }
-        .warn { color: orange; }
-        .error { color: red; }
-        flowise-chatbot {
-            margin-top: 20px;
+
+        .model-controls {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 100;
+            background: rgba(33, 33, 33, 0.8);
+            padding: 8px;
+            border-radius: 8px;
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 8px;
+            max-width: calc(100% - 24px);
+            backdrop-filter: blur(8px);
         }
-        .max-width {
-            max-width: 1200px;
-            margin: 0 auto;
+
+        .model-controls button {
+            background: #333333;
+            color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            min-width: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease;
+            flex-shrink: 1;
+        }
+
+        .model-controls button:hover {
+            background: #444444;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .model-controls button.active {
+            background: #444444;
+            color: white;
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+
+        .model-controls button:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .model-controls button::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #666;
+            transition: all 0.2s ease;
+        }
+
+        .model-controls button.active::before {
+            background: #5aacc7;
+            box-shadow: 0 0 8px #5aacc7;
+        }
+
+        .model-controls button.Light1::before {
+            background: #e9ffa2;
+            box-shadow: 0 0 8px #e9ffa2;
+        }
+
+        .model-controls button.Light2::before {
+            background: #e7933a;
+            box-shadow: 0 0 8px #e7933a;
+        }
+
+        .model-controls button.female::before {
+            background: #d95fb9;
+            box-shadow: 0 0 8px #d95fb9;
+        }
+
+        .model-controls button.male::before {
+            background: #5aacc7;
+            box-shadow: 0 0 8px #5aacc7;
         }
     </style>
 </head>
-<body>
 
-    <img id="artImage" alt="Art Image" width="320" height="370">
-    <h2 id="senseiName"></h2>
-    <input type="hidden" id="voiceId" value="pNInz6obpgDQGcFmaJgB">
-    <p class="subtext">Are you ready, Adelle? Tap the button :)</p>
-    <div style="display: none;" id="logContainer"></div>
+<body>
+    <div class="container">
+        <div id="modelContainer">
+            <div class="model-controls">
+                <button id="toggleWireframe" class="active">Mesh</button>
+                <button id="toggleLight" class="Light1">Light 1</button>
+                <button id="switchModel" class="male">Switch</button>
+            </div>
+            <div class="model-switch">
+            </div>
+            <canvas id="modelCanvas"></canvas>
+            <div class="loader">Loading model...</div>
+        </div>
+
+
+        <div class="chat-container">
+            <input type="hidden" id="voiceId" value="F0yTXVI2WXEIiShs00dR">
+            <div id="logContainer"></div>
+        </div>
+    </div>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+            "three/examples/jsm/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        let isWireframeVisible = true;
+        let currentLightMode = true;
+        let currentModel = null;
+        let wireframeMeshes = [];
+        let currentModelType = 'male';
+
+        const lightingPresets = {
+            male: {
+                preset1: {
+                    ambient: { intensity: 0.5, visible: true },
+                    hemisphere: { intensity: 0.2, visible: true, position: { x: 0, y: 1, z: 0 } },
+                    fill1: { intensity: 0.9, visible: true, position: { x: 5, y: 6.7, z: 5 } },
+                    fill2: { intensity: 0.7, visible: true, position: { x: 4.7, y: 0, z: 5 } },
+                    fill3: { intensity: 0.7, visible: true, position: { x: -4.1, y: 3.2, z: 4 } },
+                    fill4: { intensity: 1.2, visible: true, position: { x: 8, y: -0.6, z: -8.9 } }
+                },
+                preset2: {
+                    ambient: { intensity: 0, visible: true },
+                    hemisphere: { intensity: 0.2, visible: true, position: { x: 0, y: 1, z: 0 } },
+                    fill1: { intensity: 1.3, visible: true, position: { x: -3.5, y: 6.7, z: 5 } },
+                    fill2: { intensity: 0.2, visible: true, position: { x: 4.7, y: 0, z: 5 } },
+                    fill3: { intensity: 0.7, visible: true, position: { x: -4.1, y: 1.1, z: 4 } },
+                    fill4: { intensity: 0, visible: true, position: { x: 8, y: 3.2, z: -8.9 } }
+                }
+            },
+            female: {
+                preset1: {
+                    ambient: { intensity: 0.2, visible: true },
+                    hemisphere: { intensity: 0.35, visible: true, position: { x: 0, y: 1, z: 0 } },
+                    fill1: { intensity: 1, visible: true, position: { x: -1.4, y: 5, z: 5 } },
+                    fill2: { intensity: 0.8, visible: true, position: { x: -6.6, y: 0, z: 5 } },
+                    fill3: { intensity: 0.6, visible: true, position: { x: 5, y: 0, z: -5 } },
+                    fill4: { intensity: 1.2, visible: true, position: { x: -5, y: -5, z: -5 } }
+                },
+                preset2: {
+                    ambient: { intensity: 0.25, visible: true },
+                    hemisphere: { intensity: 0.35, visible: true, position: { x: 0, y: 1, z: 0 } },
+                    fill1: { intensity: 1.4, visible: true, position: { x: -1.8, y: 5.6, z: 2.5 } },
+                    fill2: { intensity: 0.9, visible: true, position: { x: -6.4, y: 10, z: 5 } },
+                    fill3: { intensity: 0.6, visible: false, position: { x: 5, y: -1.1, z: -0.1 } },
+                    fill4: { intensity: 0.6, visible: true, position: { x: -3.1, y: -3.5, z: -5.4 } }
+                }
+            }
+        };
+
+        // Scene setup
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x212121);
+
+        const canvas = document.getElementById('modelCanvas');
+        const camera = new THREE.PerspectiveCamera(35, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+        camera.position.set(0, 0, 15);
+
+        const renderer = new THREE.WebGLRenderer({
+            canvas,
+            antialias: true,
+            alpha: true
+        });
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+        // Lighting setup
+        const lights = {
+            ambient: new THREE.AmbientLight(0xffffff, 0.4),
+            hemisphere: new THREE.HemisphereLight(0xffffff, 0x444444, 0.2),
+            fill1: new THREE.DirectionalLight(0xffffff, 0.9),
+            fill2: new THREE.DirectionalLight(0xffffff, 0.7),
+            fill3: new THREE.DirectionalLight(0xffffff, 0.7),
+            fill4: new THREE.DirectionalLight(0xffffff, 1.2)
+        };
+
+        Object.values(lights).forEach(light => scene.add(light));
+
+        // Controls setup
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.maxPolarAngle = Math.PI;
+        controls.minDistance = 7;
+        controls.maxDistance = 20;
+
+
+        function loadModel(modelPath) {
+            const loader = new FBXLoader();
+            loader.load(
+                modelPath,
+                function (object) {
+                    if (currentModel) {
+                        scene.remove(currentModel);
+                        wireframeMeshes.forEach(mesh => scene.remove(mesh));
+                        wireframeMeshes = [];
+                    }
+
+                    document.querySelector('.loader').style.display = 'none';
+                    currentModel = object;
+
+                    object.traverse(function (child) {
+                        if (child.isMesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+
+                            const wireframeGeometry = new THREE.WireframeGeometry(child.geometry);
+                            const wireframeMaterial = new THREE.LineBasicMaterial({
+                                color: 0x808080,
+                                linewidth: 1,
+                                opacity: 0.5,
+                                transparent: true
+                            });
+                            const wireframe = new THREE.LineSegments(wireframeGeometry, wireframeMaterial);
+                            wireframe.matrix = child.matrix;
+                            wireframe.matrixWorld = child.matrixWorld;
+                            wireframe.matrixAutoUpdate = false;
+                            wireframe.visible = isWireframeVisible;
+
+                            wireframeMeshes.push(wireframe);
+                            scene.add(wireframe);
+
+                            if (child.material) {
+                                if (Array.isArray(child.material)) {
+                                    child.material.forEach(mat => enhanceMaterial(mat));
+                                } else {
+                                    enhanceMaterial(child.material);
+                                }
+                            }
+                        }
+                    });
+
+                    const box = new THREE.Box3().setFromObject(object);
+                    const size = box.getSize(new THREE.Vector3());
+                    const center = box.getCenter(new THREE.Vector3());
+
+                    const scale = 5 / Math.max(size.x, size.y, size.z);
+                    object.scale.setScalar(scale);
+                    object.position.sub(center.multiplyScalar(scale));
+
+                    wireframeMeshes.forEach(wireframe => {
+                        wireframe.scale.copy(object.scale);
+                        wireframe.position.copy(object.position);
+                        wireframe.rotation.copy(object.rotation);
+                    });
+
+                    scene.add(object);
+                },
+                function (xhr) {
+                    const percentComplete = xhr.loaded / xhr.total * 100;
+                    document.querySelector('.loader').textContent =
+                        'Loading: ' + Math.round(percentComplete) + '%';
+                },
+                function (error) {
+                    console.error('Error loading model:', error);
+                    document.querySelector('.loader').textContent = 'Error loading model';
+                }
+            );
+        }
+
+        function enhanceMaterial(material) {
+            material.side = THREE.DoubleSide;
+            if (material.isMeshPhongMaterial || material.isMeshStandardMaterial) {
+                material.color.setHex(0xffffff);
+                material.shininess = 0;
+                material.reflectivity = 0;
+                material.metalness = 0;
+                material.roughness = 1;
+                material.envMapIntensity = 0;
+            }
+            material.needsUpdate = true;
+        }
+
+        function applyLightingPreset(preset) {
+            const config = preset;
+
+            lights.ambient.intensity = config.ambient.intensity;
+            lights.ambient.visible = config.ambient.visible;
+
+            lights.hemisphere.intensity = config.hemisphere.intensity;
+            lights.hemisphere.visible = config.hemisphere.visible;
+            lights.hemisphere.position.set(
+                config.hemisphere.position.x,
+                config.hemisphere.position.y,
+                config.hemisphere.position.z
+            );
+
+            Object.entries({
+                fill1: lights.fill1,
+                fill2: lights.fill2,
+                fill3: lights.fill3,
+                fill4: lights.fill4
+            }).forEach(([key, light]) => {
+                const lightConfig = config[key];
+                light.intensity = lightConfig.intensity;
+                light.visible = lightConfig.visible;
+                light.position.set(
+                    lightConfig.position.x,
+                    lightConfig.position.y,
+                    lightConfig.position.z
+                );
+            });
+        }
+
+        // Event listeners
+        document.getElementById('toggleWireframe').addEventListener('click', (e) => {
+            isWireframeVisible = !isWireframeVisible;
+            wireframeMeshes.forEach(wireframe => {
+                wireframe.visible = isWireframeVisible;
+            });
+            e.target.classList.toggle('active');
+        });
+
+        document.getElementById('toggleLight').addEventListener('click', (e) => {
+            const lightButton = e.target;
+            lightButton.textContent = currentLightMode ? 'Light 2' : 'Light 1';
+
+            lightButton.classList.remove('Light1', 'Light2');
+            lightButton.classList.add(currentLightMode ? 'Light2' : 'Light1');
+
+            currentLightMode = !currentLightMode;
+
+            const preset = currentModelType === 'male'
+                ? (currentLightMode ? lightingPresets.male.preset1 : lightingPresets.male.preset2)
+                : (currentLightMode ? lightingPresets.female.preset1 : lightingPresets.female.preset2);
+
+            applyLightingPreset(preset);
+        });
+
+
+        document.getElementById('switchModel').addEventListener('click', () => {
+            currentModelType = currentModelType === 'male' ? 'female' : 'male';
+            const modelPath = currentModelType === 'male' ?
+                'https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@ea9de1d0a94bd26ac5d66c963961a570aaec7559/3DModels/human_head.fbx' :
+                'https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@ea9de1d0a94bd26ac5d66c963961a570aaec7559/3DModels/female_head.fbx';
+
+            loadModel(modelPath);
+
+            const switchElement = document.getElementById('switchModel');
+            switchElement.classList.remove('male', 'female');
+            switchElement.classList.add(currentModelType);
+
+            // Reset lighting to the active preset
+            const activePreset = document.getElementById('toggleLight').classList.contains('active') ?
+                (currentModelType === 'male' ? lightingPresets.male.preset1 : lightingPresets.female.preset1) :
+                (currentModelType === 'male' ? lightingPresets.male.preset2 : lightingPresets.female.preset2);
+
+            applyLightingPreset(activePreset);
+        });
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Window resize handler
+        window.addEventListener('resize', () => {
+            const container = document.getElementById('modelContainer');
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
+
+        // Initial model load
+        loadModel('https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@ea9de1d0a94bd26ac5d66c963961a570aaec7559/3DModels/human_head.fbx');
+
+        // Apply initial lighting preset
+        applyLightingPreset(lightingPresets.male.preset1);
+    </script>
+</body>
 
     <script type="module">
         const name = "George";
@@ -142,5 +542,4 @@
     <script src="../js/log-errors.js" defer></script>
     <script src="../js/override-chatbot-styles.js" defer></script>
     <script src="../js/tts-service.js" defer></script>
-</body>
-</html>
+ </html>
