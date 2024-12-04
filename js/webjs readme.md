@@ -5,7 +5,7 @@ Change:
 before:
     e.style.setProperty("background", t) 
 after:
-    e.style.setProperty("background", "#00FF00", "important")
+    e.style.setProperty("background", "#212121", "important")
 
 Code snippet: (Line 50005)
 

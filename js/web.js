@@ -2,54 +2,54 @@ import Compress from "https://cdn.jsdelivr.net/npm/compress.js@2.1.2/build/compr
 const compressor = new Compress();
 
 
-const claudeNormal = new FontFace(
-    'ClaudeFont',
-    'url(/fonts/8dd98daf4ff6e30f-s.p.woff2) format("woff2")',
-    { weight: '400', style: 'normal' }
-  );
-  
-const claudeItalic = new FontFace(
-    'ClaudeFont',
-    'url(/fonts/d321f86573f8f5ee-s.p.woff2) format("woff2")',
-    { weight: '400', style: 'italic' }
-  );
-  
-  Promise.all([claudeNormal.load(), claudeItalic.load()])
-    .then(fonts => {
-      fonts.forEach(font => document.fonts.add(font));
-      document.body.style.fontFamily = 'ClaudeFont, sans-serif';
-    })
-    .catch(error => {
-      console.error('Failed to load the fonts:', error);
-    });
-
-const styleTag = document.createElement('style');
-
-styleTag.textContent = `
-  .claude-font {
-    font-family: ClaudeFont, sans-serif;
-  }
-`;
-
-document.head.appendChild(styleTag);
-
 
 async function compressImage(file) {
-  try {
-    const compressedFile = await compressor.compress(file, {
-      size: 4, // Max size in MB, adjust accordingly
-      quality: 0.75, // Image quality, adjust accordingly
-      maxWidth: 1920, // Max width
-      maxHeight: 1080, // Max height
-      resize: true // Resize option
-    });
-    console.log("Image compressed : ", URL.createObjectURL(compressedFile));
-    return compressedFile;
-
-  } catch (error) {
-    console.error("Error compressing the image:", error);
-  }
+    try {
+        const compressedFile = await compressor.compress(file, {
+            size: 4, // Max size in MB, adjust accordingly
+            quality: 0.75, // Image quality, adjust accordingly
+            maxWidth: 1920, // Max width
+            maxHeight: 1080, // Max height
+            resize: true // Resize option
+        });
+        console.log("Image compressed : ", URL.createObjectURL(compressedFile));
+        return compressedFile;
+        
+    } catch (error) {
+        console.error("Error compressing the image:", error);
+    }
 }
+    
+    const claudeNormal = new FontFace(
+        'ClaudeFont',
+        'url(/fonts/8dd98daf4ff6e30f-s.p.woff2) format("woff2")',
+        { weight: '400', style: 'normal' }
+      );
+      
+    const claudeItalic = new FontFace(
+        'ClaudeFont',
+        'url(/fonts/d321f86573f8f5ee-s.p.woff2) format("woff2")',
+        { weight: '400', style: 'italic' }
+      );
+      
+      Promise.all([claudeNormal.load(), claudeItalic.load()])
+        .then(fonts => {
+          fonts.forEach(font => document.fonts.add(font));
+          document.body.style.fontFamily = 'ClaudeFont, sans-serif';
+        })
+        .catch(error => {
+          console.error('Failed to load the fonts:', error);
+        });
+    
+    const styleTag = document.createElement('style');
+    
+    styleTag.textContent = `
+      .claude-font {
+        font-family: ClaudeFont, sans-serif;
+      }
+    `;
+    
+    document.head.appendChild(styleTag);
 
 function e(e) {
     return Object.keys(e).reduce(( (r, o) => {

@@ -478,10 +478,10 @@
 
 
 <script type="module">
-    const name = "Gollum";
-    const src = 'https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@8b1fcc263558667375036d20b9a9d44a60f79112/avatar/Gollum.webp';
+        const name = "Alex";
+        const src = `https://cdn.jsdelivr.net/gh/Just-Hammad/artsensei2@5dbbad242d73390373422f3ee5e36a9fbf82c6ae/avatar/${name}.webp`;
 
-    import Chatbot from "../js/web.js";
+    import Chatbot from "../js/web2.js";
     Chatbot.init({
         chatflowid: "2398f487-5fa4-4b37-b993-2a0a0d532e4f",
         apiHost: "https://chat.artsensei.ai",
@@ -500,7 +500,7 @@
                 title: name,
                 titleAvatarSrc: src,
                 showAgentMessages: false,
-                welcomeMessage: `Hi there! Are you ready to work on drawings of trees?`,
+                welcomeMessage: `Hi there! Would you like help with portrait drawing?`,
                 errorMessage: 'Error: Please contact teacher',
                 backgroundColor: "#141414",
                 height: 700,
